@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // =============================================================
   // KONFIGURASI SUPABASE
   // =============================================================
-  const SUPABASE_URL = "https://mkoewddusqyvhgdmkpdz.supabase.co/rest/v1/"; // Ganti dengan URL Supabase kamu
+  const SUPABASE_URL = "https://mkoewddusqyvhgdmkpdz.supabase.co"; // Ganti dengan URL Supabase kamu
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rb2V3ZGR1c3F5dmhnZG1rcGR6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg4Njg1NjUsImV4cCI6MjEwNDQ0NDU2NX0.yaYgBkGHpYAlkpB2ffJKA8B_CF4cnwzzhbivzr9ogAU"; // Ganti dengan Anon Key Supabase kamu
 
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
