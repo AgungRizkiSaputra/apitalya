@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Undangan Pernikahan - Afid &amp; Alya</title>
+  
+  <!-- CSS Lokal -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Sacramento&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Audio Backsound -->
+  <audio id="bg-music" loop>
+    <source src="assets/audio/wedding-song.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Tombol Kontrol Musik -->
+  <button id="music-control" class="music-btn hide" aria-label="Control Music">
+    <i class="fa-solid fa-compact-disc fa-spin"></i>
+  </button>
+
+  <!-- Cover Halaman Utama (Tanpa Box) -->
+  <section id="cover" class="cover-section">
+    <div class="cover-overlay"></div>
+    <div class="cover-content">
+      <div class="cover-monogram" aria-hidden="true">A<span>&amp;</span>A</div>
+      <span class="badge-tag">Walimatul 'Ursy</span>
+      <p class="subtitle">The Wedding Invitation of</p>
+      <h1 class="couple-title">Afid &amp; Alya</h1>
+      <p class="wedding-date"><i class="fa-regular fa-calendar-check me-2"></i> Sabtu, 26 Desember 2026</p>
+      
+      <div class="guest-box">
+        <small>Kepada Yth. Bapak/Ibu/Saudara/i:</small>
+        <p class="guest-name">Tamu Undangan</p>
+      </div>
+
+      <button id="btn-open" class="btn-primary">
+        <i class="fa-solid fa-envelope-open"></i> Buka Undangan
+      </button>
+      <p class="scroll-note"><i class="fa-solid fa-chevron-down"></i> Sebuah hari yang kami nantikan</p>
+    </div>
+  </section>
+
+  <!-- Konten Utama (Latar Foto Estetis, Tanpa Box) -->
+  <main id="main-content" class="content-hidden">
+    
+    <!-- Hero Section -->
+    <section class="hero-section text-center">
+      <div class="ornament-divider">
+        <i class="fa-solid fa-leaf"></i>
+      </div>
+      <p class="subtitle">Kami Mengundang Anda Untuk Merayakan Pernikahan</p>
+      <h1 class="couple-title">Afid &amp; Alya</h1>
+      <p class="hero-date">26 . 12 . 2026</p>
+      
+      <div class="quran-quote">
+        <p>"Dan di antara tanda-tanda (kebesaran-Nya) ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya."</p>
+        <small>— QS. Ar-Rum: 21 —</small>
+      </div>
+    </section>
+
+    <!-- Section Mempelai -->
+    <section class="couple-section text-center">
+      <p class="section-kicker">The couple</p>
+      <h2 class="section-title">Mempelai Pria &amp; Wanita</h2>
+      <p class="section-desc">Maha Suci Allah yang telah menciptakan makhluk-Nya berpasangan. Dengan memohon rahmat dan ridho-Nya, kami mengundang Anda dalam pernikahan kami:</p>
+      
+      <div class="couple-grid">
+        <!-- Mempelai Pria -->
+        <div class="couple-card">
+          <div class="avatar-holder photo-modern">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80" alt="Afid Hidayatul Mustafid">
+          </div>
+          <h3>Afid Hidayatul Mustafid</h3>
+          <p class="parents">Putra dari Alm. Bpk. Mansur <br>&amp; Ibu Tihat</p>
+        </div>
+
+        <div class="couple-divider">&amp;</div>
+
+        <!-- Mempelai Wanita -->
+        <div class="couple-card">
+          <div class="avatar-holder photo-modern">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80" alt="Alya Daffa Fadia Putri">
+          </div>
+          <h3>Alya Daffa Fadia Putri</h3>
+          <p class="parents">Putri dari Bpk. [Nama Ayah] <br>&amp; Ibu [Nama Ibu]</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Perjalanan Kisah Cinta -->
+    <section class="story-section">
+      <div class="story-intro text-center reveal-on-scroll">
+        <p class="section-kicker">Our story</p>
+        <h2 class="section-title">Perjalanan Kisah Kami</h2>
+        <p class="section-desc">Setiap pertemuan punya alasan. Ini adalah beberapa momen yang membawa kami sampai hari ini.</p>
+      </div>
+
+      <div class="story-timeline story-editorial">
+        <article class="story-entry reveal-on-scroll">
+          <span class="story-year">2019</span>
+          <div class="story-marker"><i class="fa-solid fa-sparkles"></i></div>
+          <div class="story-copy">
+            <span class="story-step">01</span>
+            <p class="story-label">The beginning</p>
+            <h3>Berawal dari Perkenalan</h3>
+            <p>Kisah kami dimulai dari sebuah perkenalan sederhana yang perlahan tumbuh menjadi rasa nyaman dan saling memahami.</p>
+          </div>
+        </article>
+
+        <article class="story-entry reveal-on-scroll">
+          <span class="story-year">2022</span>
+          <div class="story-marker"><i class="fa-regular fa-heart"></i></div>
+          <div class="story-copy">
+            <span class="story-step">02</span>
+            <p class="story-label">A promise</p>
+            <h3>Hari Pertunangan</h3>
+            <p>Dengan doa dari keluarga, kami mengikat janji untuk melangkah bersama menuju masa depan yang kami impikan.</p>
+          </div>
+        </article>
+
+        <article class="story-entry reveal-on-scroll">
+          <span class="story-year">2026</span>
+          <div class="story-marker"><i class="fa-solid fa-ring"></i></div>
+          <div class="story-copy">
+            <span class="story-step">03</span>
+            <p class="story-label">Forever begins</p>
+            <h3>Menuju Akad Nikah</h3>
+            <p>Dengan penuh syukur, kami siap mengucapkan akad dan memulai babak baru sebagai satu keluarga.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="gallery-section text-center">
+      <div class="reveal-on-scroll">
+        <p class="section-kicker">Our moments</p>
+        <h2 class="section-title">Galeri Bahagia</h2>
+        <p class="section-desc">Beberapa potret kecil dari perjalanan yang kami syukuri.</p>
+      </div>
+      <div class="gallery-grid">
+        <figure class="gallery-item gallery-tall reveal-on-scroll"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&amp;fit=crop&amp;w=900&amp;q=85" alt="Momen pasangan di pernikahan"><figcaption>Our beginning</figcaption></figure>
+        <figure class="gallery-item reveal-on-scroll"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&amp;fit=crop&amp;w=700&amp;q=85" alt="Pasangan berjalan bersama"><figcaption>Side by side</figcaption></figure>
+        <figure class="gallery-item reveal-on-scroll"><img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&amp;fit=crop&amp;w=700&amp;q=85" alt="Dekorasi pernikahan"><figcaption>A beautiful day</figcaption></figure>
+        <figure class="gallery-item gallery-wide reveal-on-scroll"><img src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&amp;fit=crop&amp;w=1000&amp;q=85" alt="Dekorasi bunga pernikahan"><figcaption>With gratitude</figcaption></figure>
+        <div class="gallery-more" id="gallery-more">
+          <figure class="gallery-item reveal-on-scroll"><img src="https://images.unsplash.com/photo-1507504031003-b417219a0fde?auto=format&amp;fit=crop&amp;w=700&amp;q=85" alt="Momen romantis pasangan"><figcaption>In every season</figcaption></figure>
+          <figure class="gallery-item reveal-on-scroll"><img src="https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?auto=format&amp;fit=crop&amp;w=700&amp;q=85" alt="Bunga dan dekorasi acara"><figcaption>Little details</figcaption></figure>
+        </div>
+      </div>
+      <button class="gallery-toggle" id="gallery-toggle" type="button" aria-expanded="false"><span>Lihat lebih banyak</span><i class="fa-solid fa-arrow-down"></i></button>
+    </section>
+
+    <!-- Section Hitung Mundur -->
+    <section class="countdown-section text-center">
+      <p class="section-kicker">Save the date</p>
+      <h2 class="section-title">Hitung Mundur Acara</h2>
+      <div class="countdown-grid">
+        <div class="time-box">
+          <span id="days">0</span>
+          <small>Hari</small>
+        </div>
+        <div class="time-box">
+          <span id="hours">0</span>
+          <small>Jam</small>
+        </div>
+        <div class="time-box">
+          <span id="minutes">0</span>
+          <small>Menit</small>
+        </div>
+        <div class="time-box">
+          <span id="seconds">0</span>
+          <small>Detik</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Detail Acara -->
+    <section class="event-section text-center">
+      <p class="section-kicker">Join us</p>
+      <h2 class="section-title">Rangkaian Acara</h2>
+      <p class="section-desc">Satu tempat, dua momen istimewa yang kami rayakan bersama keluarga dan sahabat.</p>
+      <div class="event-cards">
+        
+        <div class="event-card">
+          <div class="event-icon"><i class="fa-solid fa-ring"></i></div>
+          <h3>Akad Nikah</h3>
+          <div class="event-detail">
+            <p><i class="fa-regular fa-clock"></i> 08.00 - 10.00 WIB</p>
+            <p class="venue-name">Gedung Pernikahan</p>
+            <p class="address">Alamat lengkap lokasi acara</p>
+          </div>
+        </div>
+
+        <div class="event-card">
+          <div class="event-icon"><i class="fa-solid fa-champagne-glasses"></i></div>
+          <h3>Resepsi Pernikahan</h3>
+          <div class="event-detail">
+            <p><i class="fa-regular fa-clock"></i> 11.00 - Selesai</p>
+            <p class="venue-name">Gedung Pernikahan</p>
+            <p class="address">Alamat lengkap lokasi acara</p>
+          </div>
+        </div>
+
+      </div>
+      <a class="shared-map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Gedung+Pernikahan" target="_blank" rel="noopener" aria-label="Buka lokasi acara di Google Maps"><i class="fa-solid fa-location-arrow"></i> Buka lokasi di Google Maps</a>
+    </section>
+
+    <!-- Hadiah Digital -->
+    <section class="gift-section text-center">
+      <p class="section-kicker">Wedding gift</p>
+      <h2 class="section-title">Kirim Hadiah</h2>
+      <p class="section-desc">Doa dan kehadiran Anda adalah hadiah terindah. Jika berhalangan hadir, tanda kasih dapat dikirimkan melalui rekening berikut:</p>
+
+      <div class="gift-accounts">
+        <div class="gift-account">
+          <div class="gift-bank-mark"><i class="fa-solid fa-building-columns"></i></div>
+          <p class="account-label">Rekening mempelai pria</p>
+          <p class="account-bank">BANK BCA</p>
+          <p class="account-number">1234567890</p>
+          <p class="account-owner">a.n. Afid Hidayatul Mustafid</p>
+          <button class="copy-account" type="button" data-copy-account="1234567890">
+            <i class="fa-regular fa-copy"></i> Salin nomor rekening
+          </button>
+          <span class="copy-status" aria-live="polite"></span>
+        </div>
+
+        <div class="gift-account">
+          <div class="gift-bank-mark"><i class="fa-solid fa-building-columns"></i></div>
+          <p class="account-label">Rekening mempelai wanita</p>
+          <p class="account-bank">BANK MANDIRI</p>
+          <p class="account-number">0987654321</p>
+          <p class="account-owner">a.n. Alya Daffa Fadia Putri</p>
+          <button class="copy-account" type="button" data-copy-account="0987654321">
+            <i class="fa-regular fa-copy"></i> Salin nomor rekening
+          </button>
+          <span class="copy-status" aria-live="polite"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Form Ucapan & RSVP -->
+    <section class="rsvp-section">
+      <p class="section-kicker text-center">Leave a note</p>
+      <h2 class="section-title text-center">Ucapan &amp; Doa Restu</h2>
+      <p class="section-desc text-center">Tuliskan doa terbaik Anda untuk mengiringi langkah kami.</p>
+
+      <form id="rsvp-form" class="rsvp-form">
+        <div class="form-group">
+          <label for="guest-name"><i class="fa-regular fa-user"></i> Nama Lengkap</label>
+          <input type="text" id="guest-name" placeholder="Masukkan nama Anda" required>
+        </div>
+
+        <div class="form-group">
+          <label for="guest-message"><i class="fa-regular fa-comment-dots"></i> Ucapan / Doa</label>
+          <textarea id="guest-message" rows="4" placeholder="Tuliskan ucapan & doa restu di sini..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary btn-block">
+          <i class="fa-solid fa-paper-plane me-2"></i> Kirim Ucapan
+        </button>
+      </form>
+
+      <div id="wishes-list" class="wishes-list"></div>
+      <button id="clear-wishes" class="clear-wishes" type="button"><i class="fa-regular fa-trash-can"></i> Hapus semua ucapan</button>
+    </section>
+
+    <!-- Turut Mengundang -->
+    <section class="invite-section text-center">
+      <div class="reveal-on-scroll">
+        <p class="section-kicker">With love from family</p>
+        <h2 class="section-title">Turut Mengundang</h2>
+      </div>
+      <div class="invite-columns reveal-on-scroll">
+        <div class="invite-group">
+          <p class="invite-label">Keluarga Mempelai Pria</p>
+          <ul class="family-list">
+            <li>Bpk. Ucok &amp; Ibu Sari</li>
+            <li>Bpk. Dedi &amp; Ibu Lina</li>
+            <li>Bpk. Rudi &amp; Ibu Wati</li>
+            <li>Serta keluarga besar</li>
+          </ul>
+        </div>
+        <div class="invite-rule" aria-hidden="true"></div>
+        <div class="invite-group">
+          <p class="invite-label">Keluarga Mempelai Wanita</p>
+          <ul class="family-list">
+            <li>Bpk. [Nama] &amp; Ibu [Nama]</li>
+            <li>Bpk. [Nama] &amp; Ibu [Nama]</li>
+            <li>Bpk. [Nama] &amp; Ibu [Nama]</li>
+            <li>Serta keluarga besar</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center">
+      <div class="ornament-divider">
+        <i class="fa-solid fa-leaf"></i>
+      </div>
+      <p class="footer-title">Afid &amp; Alya</p>
+      <p class="footer-desc">Terima kasih atas kehadiran, doa, dan restu Anda.</p>
+    </footer>
+
+  </main>
+
+  <!-- JS Lokal -->
+  <script src="js/style.js"></script>
+</body>
+</html>
