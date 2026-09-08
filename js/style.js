@@ -86,9 +86,11 @@ document.addEventListener("DOMContentLoaded", () => {
         <strong>${escapeHtml(name)}</strong>
         <p>${escapeHtml(message)}</p>
       </div>
-      // <button class="delete-wish" type="button" aria-label="Hapus ucapan">
-      //   <i class="fa-regular fa-trash-can"></i>
-      // </button>`;
+      <!--
+  <button class="delete-wish" type="button" aria-label="Hapus ucapan">
+    <i class="fa-regular fa-trash-can"></i>
+  </button>
+  -->`;
     return wishCard;
   };
 
