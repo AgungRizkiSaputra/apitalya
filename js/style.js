@@ -1,9 +1,31 @@
 document.addEventListener("DOMContentLoaded", () => {
   // =============================================================
+  // 0. BACA PARAMETER NAMA TAMU DARI URL (?to=Nama+Tamu)
+  // =============================================================
+  const urlParams = new URLSearchParams(window.location.search);
+  const rawGuestName = urlParams.get("to") || urlParams.get("u") || urlParams.get("n");
+
+  if (rawGuestName) {
+    const guestName = decodeURIComponent(rawGuestName.trim());
+
+    // Ubah nama di Cover
+    const coverGuestElement = document.querySelector(".guest-box .guest-name");
+    if (coverGuestElement) {
+      coverGuestElement.textContent = guestName;
+    }
+
+    // Isi otomatis nama di Form Ucapan/RSVP
+    const inputGuestElement = document.getElementById("guest-name");
+    if (inputGuestElement) {
+      inputGuestElement.value = guestName;
+    }
+  }
+
+  // =============================================================
   // KONFIGURASI SUPABASE
   // =============================================================
-  const SUPABASE_URL = "https://mkoewddusqyvhgdmkpdz.supabase.co"; // Ganti dengan URL Supabase kamu
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rb2V3ZGR1c3F5dmhnZG1rcGR6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg4Njg1NjUsImV4cCI6MjEwNDQ0NDU2NX0.yaYgBkGHpYAlkpB2ffJKA8B_CF4cnwzzhbivzr9ogAU"; // Ganti dengan Anon Key Supabase kamu
+  const SUPABASE_URL = "https://mkoewddusqyvhgdmkpdz.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rb2V3ZGR1c3F5dmhnZG1rcGR6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg4Njg1NjUsImV4cCI6MjEwNDQ0NDU2NX0.yaYgBkGHpYAlkpB2ffJKA8B_CF4cnwzzhbivzr9ogAU";
 
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -27,7 +49,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }).catch(err => console.log("Autoplay blocked:", err));
   });
 
-  // 2. Play/Pause Musik
   musicControl?.addEventListener("click", () => {
     if (isPlaying) {
       bgMusic.pause();
@@ -85,16 +106,10 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="wish-content">
         <strong>${escapeHtml(name)}</strong>
         <p>${escapeHtml(message)}</p>
-      </div>
-      <!--
-  <button class="delete-wish" type="button" aria-label="Hapus ucapan">
-    <i class="fa-regular fa-trash-can"></i>
-  </button>
-  -->`;
+      </div>`;
     return wishCard;
   };
 
-  // Ambil data ucapan dari Supabase
   const fetchWishes = async () => {
     if (!wishesList) return;
     
@@ -114,7 +129,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
-  // Submit Ucapan Baru
   if (rsvpForm) {
     rsvpForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -178,7 +192,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Load awal & listener Realtime Supabase
   fetchWishes();
 
   supabase
