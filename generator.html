@@ -26,7 +26,17 @@
     .form-group { margin-bottom: 18px; }
     label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); }
     input[type="text"], textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 0.95rem; background: #faf8f5; }
+    
+    /* Style khusus input terkunci */
+    input[type="text"][readonly] {
+      background: #eae3d9;
+      color: #665e57;
+      cursor: not-allowed;
+      border-color: #d6ca9b;
+    }
+
     input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--primary); background: #fff; }
+    input[type="text"][readonly]:focus { background: #eae3d9; border-color: #d6ca9b; }
     
     .btn { background: var(--primary); color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.9rem; width: 100%; transition: opacity 0.2s; }
     .btn:hover { opacity: 0.9; }
@@ -51,8 +61,8 @@
 
     <div class="card">
       <div class="form-group">
-        <label for="domain">URL Website Undangan</label>
-        <input type="text" id="domain" value="https://afidalya.netlify.app">
+        <label for="domain">URL Website Undangan (Terkunci)</label>
+        <input type="text" id="domain" value="https://afidalya.netlify.app" readonly title="URL ini dikunci agar link tidak rusak">
       </div>
 
       <div class="form-group">
