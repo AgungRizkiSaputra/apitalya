@@ -100,6 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const rsvpForm = document.getElementById("rsvp-form");
   const wishesList = document.getElementById("wishes-list");
 
+  // Fungsi membuat kartu ucapan dengan tombol hapus aktif
   const createWishCard = (id, name, message) => {
     const wishCard = document.createElement("div");
     wishCard.classList.add("wish-item", "card-3d", "reveal-on-scroll", "is-visible");
@@ -110,7 +111,10 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="wish-content">
         <strong>${escapeHtml(name)}</strong>
         <p>${escapeHtml(message)}</p>
-      </div>`;
+      </div>
+      <button class="delete-wish" type="button" aria-label="Hapus ucapan">
+        <i class="fa-regular fa-trash-can"></i>
+      </button>`;
     return wishCard;
   };
 
@@ -157,7 +161,6 @@ document.addEventListener("DOMContentLoaded", () => {
           alert("Gagal mengirim ucapan, silakan coba lagi.");
           console.error("Insert error:", error);
         } else {
-          // PERBAIKAN BUG: Hanya bersihkan kolom ucapan, abaikan kolom nama jika readOnly
           messageInput.value = "";
           if (!nameInput.readOnly) {
             nameInput.value = "";
