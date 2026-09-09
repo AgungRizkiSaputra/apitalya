@@ -150,18 +150,18 @@ document.addEventListener("DOMContentLoaded", () => {
     return wishCard;
   };
 
-  // AMBIL DATA KHUSUS UCAPAN (FILTER PESAN YANG TIDAK KOSONG)
+  // AMBIL DATA UCAPAN (FILTER HANYA PESAN ASLI DAN ABAIKAN SAMPAH)
   const fetchWishes = async () => {
     if (!wishesList) return;
     
     const isAscending = wishSortSelect ? wishSortSelect.value === "asc" : true;
 
-    // Hanya ambil data yang kolom 'message'-nya terisi (bukan null atau string kosong)
     const { data: wishes, error } = await supabase
       .from("wishes")
       .select("*")
       .not("message", "is", null)
       .neq("message", "")
+      .neq("message", "-")
       .order("created_at", { ascending: isAscending });
 
     if (error) {
@@ -183,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchWishes();
   });
 
-  // SUBMIT FORM UCAPAN (KHUSUS PESAN & DOA)
+  // SUBMIT FORM UCAPAN
   if (wishForm) {
     wishForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -220,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // SUBMIT MODAL RSVP (KHUSUS KETERANGAN KEHADIRAN)
+  // SUBMIT MODAL RSVP
   if (modalRsvpForm) {
     modalRsvpForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -237,10 +237,10 @@ document.addEventListener("DOMContentLoaded", () => {
           submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin me-2"></i> Menyimpan...`;
         }
 
-        // Simpan status tanpa mengisi 'message' agar tidak muncul di daftar ucapan
+        // Gunakan "-" pada kolom message agar lolos syarat NOT NULL Supabase
         const { error } = await supabase
           .from("wishes")
-          .insert([{ name, status, message: null }]);
+          .insert([{ name, status, message: "-" }]);
 
         if (error) {
           alert("Gagal menyimpan konfirmasi, silakan coba lagi.");
