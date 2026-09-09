@@ -32,7 +32,7 @@
     .stat-card h3 { font-size: 2rem; color: var(--primary); font-weight: 700; line-height: 1; margin-bottom: 6px; }
     .stat-card p { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
 
-    /* Table & Card Area */
+    /* Table Area */
     .table-container { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); overflow-x: auto; }
     table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
     th, td { padding: 12px 16px; border-bottom: 1px solid var(--border); }
@@ -106,25 +106,30 @@
   <script>
     const SUPABASE_URL = "https://mkoewddusqyvhgdmkpdz.supabase.co";
     const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rb2V3ZGR1c3F5dmhnZG1rcGR6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg4Njg1NjUsImV4cCI6MjEwNDQ0NDU2NX0.yaYgBkGHpYAlkpB2ffJKA8B_CF4cnwzzhbivzr9ogAU";
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     async function loadRsvpData() {
       const tbody = document.getElementById("rsvp-table-body");
-      
-      // Ambil data yang kolom status-nya tidak null
-      const { data, error } = await supabase
+      if (!tbody) return;
+
+      tbody.innerHTML = `<tr><td colspan="4" class="empty-state"><i class="fa-solid fa-spinner fa-spin"></i> Memuat data kehadiran...</td></tr>`;
+
+      // Ambil semua data ucapan & RSVP
+      const { data, error } = await supabaseClient
         .from("wishes")
         .select("*")
-        .not("status", "is", null)
         .order("created_at", { ascending: false });
 
       if (error) {
-        console.error("Error loading data:", error);
-        tbody.innerHTML = `<tr><td colspan="4" class="empty-state">Gagal mengambil data dari server.</td></tr>`;
+        console.error("Error loading RSVP data:", error);
+        tbody.innerHTML = `<tr><td colspan="4" class="empty-state">Gagal mengambil data dari server. Silakan coba lagi.</td></tr>`;
         return;
       }
 
-      if (!data || data.length === 0) {
+      // Filter hanya data yang memiliki status kehadiran (bukan null atau string kosong)
+      const rsvpData = data ? data.filter(item => item.status && item.status.trim() !== "") : [];
+
+      if (rsvpData.length === 0) {
         tbody.innerHTML = `<tr><td colspan="4" class="empty-state">Belum ada konfirmasi kehadiran dari tamu.</td></tr>`;
         updateStats(0, 0, 0, 0);
         return;
@@ -135,8 +140,8 @@
       let countRagu = 0;
 
       tbody.innerHTML = "";
-      data.forEach((row, index) => {
-        const status = row.status || "Hadir";
+      rsvpData.forEach((row, index) => {
+        const status = row.status.trim();
         let badgeClass = "badge-hadir";
 
         if (status === "Hadir") {
@@ -165,7 +170,7 @@
         tbody.appendChild(tr);
       });
 
-      updateStats(data.length, countHadir, countTidakHadir, countRagu);
+      updateStats(rsvpData.length, countHadir, countTidakHadir, countRagu);
     }
 
     function updateStats(total, hadir, tidak, ragu) {
@@ -181,8 +186,10 @@
       }[m])) : '';
     }
 
-    document.getElementById("btn-refresh").addEventListener("click", loadRsvpData);
-    document.addEventListener("DOMContentLoaded", loadRsvpData);
+    document.getElementById("btn-refresh")?.addEventListener("click", loadRsvpData);
+
+    // Jalankan fungsi langsung saat skrip selesai dibaca
+    loadRsvpData();
   </script>
 </body>
 </html>
