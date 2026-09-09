@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
       coverGuestElement.textContent = guestName;
     }
 
-    // Isi otomatis & KUNCI semua input nama
+    // Isi otomatis & KUNCI semua input nama (Form Ucapan & Form Modal RSVP)
     const nameInputs = document.querySelectorAll(".guest-name-input");
     nameInputs.forEach(input => {
       input.value = guestName;
@@ -150,6 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return wishCard;
   };
 
+  // AMBIL DATA UCAPAN (FILTER PESAN ASLI, ABAIKAN INPUT RSVP DENGAN STATUS ONLY)
   const fetchWishes = async () => {
     if (!wishesList) return;
     
@@ -182,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchWishes();
   });
 
-  // SUBMIT FORM UCAPAN
+  // SUBMIT FORM UCAPAN & DOA
   if (wishForm) {
     wishForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -219,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // SUBMIT MODAL RSVP (DENGAN CEK CEGAH DUPLIKAT NAMA)
+  // SUBMIT MODAL RSVP (CEK DUPLIKASI NAMA SEBELUM SIMPAN)
   if (modalRsvpForm) {
     modalRsvpForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -236,7 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
           submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin me-2"></i> Menyimpan...`;
         }
 
-        // Cek dulu apakah nama ini sudah pernah melakukan konfirmasi RSVP
+        // Cek apakah nama ini sudah pernah mengirimkan RSVP
         const { data: existingRsvp } = await supabase
           .from("wishes")
           .select("id")
@@ -244,35 +245,24 @@ document.addEventListener("DOMContentLoaded", () => {
           .not("status", "is", null)
           .limit(1);
 
-        let error = null;
-        let isUpdate = false;
-
         if (existingRsvp && existingRsvp.length > 0) {
-          // Jika sudah ada, PERBARUI statusnya (mencegah duplikat)
-          isUpdate = true;
-          const res = await supabase
-            .from("wishes")
-            .update({ status: status })
-            .eq("id", existingRsvp[0].id);
-          error = res.error;
+          // Jika sudah pernah, tampilkan peringatan dan batalkan simpan
+          alert("Mohon maaf, Anda sudah pernah mengonfirmasi kehadiran sebelumnya dan tidak dapat mengisi 2 kali.");
+          closeModal();
         } else {
-          // Jika belum ada, BUAT data baru
-          const res = await supabase
+          // Jika belum pernah, simpan data konfirmasi baru
+          const { error } = await supabase
             .from("wishes")
             .insert([{ name, status, message: "-" }]);
-          error = res.error;
-        }
 
-        if (error) {
-          alert("Gagal menyimpan konfirmasi, silakan coba lagi.");
-          console.error("RSVP save error:", error);
-        } else {
-          alert(isUpdate 
-            ? "Konfirmasi kehadiran Anda telah diperbarui!" 
-            : "Terima kasih! Konfirmasi kehadiran Anda berhasil disimpan."
-          );
-          statusSelect.selectedIndex = 0;
-          closeModal();
+          if (error) {
+            alert("Gagal menyimpan konfirmasi, silakan coba lagi.");
+            console.error("RSVP save error:", error);
+          } else {
+            alert("Terima kasih! Konfirmasi kehadiran Anda berhasil disimpan.");
+            statusSelect.selectedIndex = 0;
+            closeModal();
+          }
         }
 
         if (submitBtn) {
