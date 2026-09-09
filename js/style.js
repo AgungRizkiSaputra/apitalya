@@ -150,7 +150,6 @@ document.addEventListener("DOMContentLoaded", () => {
     return wishCard;
   };
 
-  // AMBIL DATA UCAPAN (FILTER HANYA PESAN ASLI DAN ABAIKAN SAMPAH)
   const fetchWishes = async () => {
     if (!wishesList) return;
     
@@ -220,7 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // SUBMIT MODAL RSVP
+  // SUBMIT MODAL RSVP (DENGAN CEK CEGAH DUPLIKAT NAMA)
   if (modalRsvpForm) {
     modalRsvpForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -237,16 +236,41 @@ document.addEventListener("DOMContentLoaded", () => {
           submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin me-2"></i> Menyimpan...`;
         }
 
-        // Gunakan "-" pada kolom message agar lolos syarat NOT NULL Supabase
-        const { error } = await supabase
+        // Cek dulu apakah nama ini sudah pernah melakukan konfirmasi RSVP
+        const { data: existingRsvp } = await supabase
           .from("wishes")
-          .insert([{ name, status, message: "-" }]);
+          .select("id")
+          .eq("name", name)
+          .not("status", "is", null)
+          .limit(1);
+
+        let error = null;
+        let isUpdate = false;
+
+        if (existingRsvp && existingRsvp.length > 0) {
+          // Jika sudah ada, PERBARUI statusnya (mencegah duplikat)
+          isUpdate = true;
+          const res = await supabase
+            .from("wishes")
+            .update({ status: status })
+            .eq("id", existingRsvp[0].id);
+          error = res.error;
+        } else {
+          // Jika belum ada, BUAT data baru
+          const res = await supabase
+            .from("wishes")
+            .insert([{ name, status, message: "-" }]);
+          error = res.error;
+        }
 
         if (error) {
           alert("Gagal menyimpan konfirmasi, silakan coba lagi.");
-          console.error("RSVP insert error:", error);
+          console.error("RSVP save error:", error);
         } else {
-          alert("Terima kasih! Konfirmasi kehadiran Anda berhasil disimpan.");
+          alert(isUpdate 
+            ? "Konfirmasi kehadiran Anda telah diperbarui!" 
+            : "Terima kasih! Konfirmasi kehadiran Anda berhasil disimpan."
+          );
           statusSelect.selectedIndex = 0;
           closeModal();
         }

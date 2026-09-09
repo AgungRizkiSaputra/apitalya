@@ -20,7 +20,7 @@
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); padding: 30px 15px; line-height: 1.6; }
-    .container { max-width: 900px; margin: 0 auto; }
+    .container { max-width: 950px; margin: 0 auto; }
     
     .header { margin-bottom: 25px; text-align: center; }
     h1 { color: var(--primary); font-size: 1.8rem; margin-bottom: 6px; }
@@ -45,8 +45,13 @@
     .badge-tidak-hadir { background: #fce8e6; color: #c5221f; }
     .badge-ragu-ragu { background: #fef7e0; color: #b06000; }
 
+    /* Tombol Aksi */
     .btn-refresh { background: var(--primary); color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.85rem; margin-bottom: 15px; display: inline-flex; align-items: center; gap: 8px; }
     .btn-refresh:hover { opacity: 0.9; }
+
+    .btn-delete { background: #fce8e6; color: #c5221f; border: 1px solid #f5c6cb; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; transition: all 0.2s; }
+    .btn-delete:hover { background: #c5221f; color: #fff; }
+
     .empty-state { text-align: center; padding: 40px; color: var(--muted); font-size: 0.9rem; }
   </style>
 </head>
@@ -89,11 +94,12 @@
             <th>Nama Tamu</th>
             <th>Status Kehadiran</th>
             <th>Waktu Konfirmasi</th>
+            <th style="text-align: center;">Aksi</th>
           </tr>
         </thead>
         <tbody id="rsvp-table-body">
           <tr>
-            <td colspan="4" class="empty-state">Memuat data kehadiran...</td>
+            <td colspan="5" class="empty-state">Memuat data kehadiran...</td>
           </tr>
         </tbody>
       </table>
@@ -112,7 +118,7 @@
       const tbody = document.getElementById("rsvp-table-body");
       if (!tbody) return;
 
-      tbody.innerHTML = `<tr><td colspan="4" class="empty-state"><i class="fa-solid fa-spinner fa-spin"></i> Memuat data kehadiran...</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="5" class="empty-state"><i class="fa-solid fa-spinner fa-spin"></i> Memuat data kehadiran...</td></tr>`;
 
       // Ambil semua data ucapan & RSVP
       const { data, error } = await supabaseClient
@@ -122,15 +128,15 @@
 
       if (error) {
         console.error("Error loading RSVP data:", error);
-        tbody.innerHTML = `<tr><td colspan="4" class="empty-state">Gagal mengambil data dari server. Silakan coba lagi.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="empty-state">Gagal mengambil data dari server. Silakan coba lagi.</td></tr>`;
         return;
       }
 
-      // Filter hanya data yang memiliki status kehadiran (bukan null atau string kosong)
+      // Filter hanya data yang memiliki status kehadiran
       const rsvpData = data ? data.filter(item => item.status && item.status.trim() !== "") : [];
 
       if (rsvpData.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" class="empty-state">Belum ada konfirmasi kehadiran dari tamu.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="empty-state">Belum ada konfirmasi kehadiran dari tamu.</td></tr>`;
         updateStats(0, 0, 0, 0);
         return;
       }
@@ -166,12 +172,30 @@
           <td><strong>${escapeHtml(row.name)}</strong></td>
           <td><span class="badge ${badgeClass}">${escapeHtml(status)}</span></td>
           <td><small style="color:var(--muted);">${dateStr}</small></td>
+          <td style="text-align: center;">
+            <button class="btn-delete" onclick="deleteRsvp('${row.id}')" title="Hapus data ini">
+              <i class="fa-regular fa-trash-can"></i> Hapus
+            </button>
+          </td>
         `;
         tbody.appendChild(tr);
       });
 
       updateStats(rsvpData.length, countHadir, countTidakHadir, countRagu);
     }
+
+    // Fungsi Hapus Data RSVP
+    window.deleteRsvp = async function(id) {
+      if (confirm("Apakah Anda yakin ingin menghapus data konfirmasi ini?")) {
+        const { error } = await supabaseClient.from("wishes").delete().eq("id", id);
+        if (error) {
+          alert("Gagal menghapus data.");
+          console.error(error);
+        } else {
+          loadRsvpData();
+        }
+      }
+    };
 
     function updateStats(total, hadir, tidak, ragu) {
       document.getElementById("count-total").innerText = total;
@@ -188,7 +212,6 @@
 
     document.getElementById("btn-refresh")?.addEventListener("click", loadRsvpData);
 
-    // Jalankan fungsi langsung saat skrip selesai dibaca
     loadRsvpData();
   </script>
 </body>
