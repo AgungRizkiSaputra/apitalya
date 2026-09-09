@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
   // =============================================================
-  // 0. BACA PARAMETER NAMA TAMU DARI URL (?to=Nama+Tamu)
+  // 0. BACA PARAMETER NAMA TAMU DARI URL (?to=Nama+Tamu) & KUNCI FORM
   // =============================================================
   const urlParams = new URLSearchParams(window.location.search);
   const rawGuestName = urlParams.get("to") || urlParams.get("u") || urlParams.get("n");
@@ -14,10 +14,14 @@ document.addEventListener("DOMContentLoaded", () => {
       coverGuestElement.textContent = guestName;
     }
 
-    // Isi otomatis nama di Form Ucapan/RSVP
+    // Isi otomatis & KUNCI kolom nama di Form Ucapan/RSVP
     const inputGuestElement = document.getElementById("guest-name");
     if (inputGuestElement) {
       inputGuestElement.value = guestName;
+      inputGuestElement.readOnly = true; // Tamu tidak bisa mengubah nama
+      inputGuestElement.style.cursor = "not-allowed";
+      inputGuestElement.style.opacity = "0.75";
+      inputGuestElement.title = "Nama dikunci sesuai dengan nama pada undangan";
     }
   }
 
