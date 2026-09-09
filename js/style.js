@@ -157,7 +157,12 @@ document.addEventListener("DOMContentLoaded", () => {
           alert("Gagal mengirim ucapan, silakan coba lagi.");
           console.error("Insert error:", error);
         } else {
-          rsvpForm.reset();
+          // PERBAIKAN BUG: Hanya bersihkan kolom ucapan, abaikan kolom nama jika readOnly
+          messageInput.value = "";
+          if (!nameInput.readOnly) {
+            nameInput.value = "";
+          }
+
           await fetchWishes();
         }
 
