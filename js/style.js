@@ -14,15 +14,15 @@ document.addEventListener("DOMContentLoaded", () => {
       coverGuestElement.textContent = guestName;
     }
 
-    // Isi otomatis & KUNCI kolom nama di Form Ucapan/RSVP
-    const inputGuestElement = document.getElementById("guest-name");
-    if (inputGuestElement) {
-      inputGuestElement.value = guestName;
-      inputGuestElement.readOnly = true; // Tamu tidak bisa mengubah nama
-      inputGuestElement.style.cursor = "not-allowed";
-      inputGuestElement.style.opacity = "0.75";
-      inputGuestElement.title = "Nama dikunci sesuai dengan nama pada undangan";
-    }
+    // Isi otomatis & KUNCI semua input nama (Form Ucapan & Form Modal RSVP)
+    const nameInputs = document.querySelectorAll(".guest-name-input");
+    nameInputs.forEach(input => {
+      input.value = guestName;
+      input.readOnly = true;
+      input.style.cursor = "not-allowed";
+      input.style.opacity = "0.75";
+      input.title = "Nama dikunci sesuai dengan nama pada undangan";
+    });
   }
 
   // =============================================================
@@ -52,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
       isPlaying = true;
     }).catch(err => console.log("Autoplay blocked:", err));
 
-    // Auto scroll ucapan ke paling bawah jika mode default aktif
     setTimeout(() => {
       const wishesList = document.getElementById("wishes-list");
       const wishSortSelect = document.getElementById("wish-sort");
@@ -104,9 +103,32 @@ document.addEventListener("DOMContentLoaded", () => {
   updateCountdown();
 
   // =============================================================
-  // 3. FORM UCAPAN & DATABASE SUPABASE (REALTIME, SORTING & RSVP STATUS)
+  // 3. LOGIKA MODAL POPUP RSVP
   // =============================================================
-  const rsvpForm = document.getElementById("rsvp-form");
+  const rsvpModal = document.getElementById("rsvp-modal");
+  const btnOpenRsvp = document.getElementById("btn-open-rsvp");
+  const btnCloseRsvp = document.getElementById("btn-close-rsvp");
+  const modalOverlay = rsvpModal?.querySelector(".rsvp-modal-overlay");
+
+  const openModal = () => {
+    rsvpModal?.classList.add("is-active");
+    rsvpModal?.setAttribute("aria-hidden", "false");
+  };
+
+  const closeModal = () => {
+    rsvpModal?.classList.remove("is-active");
+    rsvpModal?.setAttribute("aria-hidden", "true");
+  };
+
+  btnOpenRsvp?.addEventListener("click", openModal);
+  btnCloseRsvp?.addEventListener("click", closeModal);
+  modalOverlay?.addEventListener("click", closeModal);
+
+  // =============================================================
+  // 4. FORM UCAPAN, MODAL RSVP & SUPABASE REALTIME
+  // =============================================================
+  const wishForm = document.getElementById("wish-form");
+  const modalRsvpForm = document.getElementById("modal-rsvp-form");
   const wishesList = document.getElementById("wishes-list");
   const wishSortSelect = document.getElementById("wish-sort");
 
@@ -117,7 +139,6 @@ document.addEventListener("DOMContentLoaded", () => {
     wishCard.dataset.name = name;
     wishCard.dataset.message = message;
 
-    // Badge status kehadiran
     let statusBadgeHtml = "";
     if (status) {
       const slugStatus = status.toLowerCase().replace(/\s+/g, '-');
@@ -138,7 +159,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const fetchWishes = async () => {
     if (!wishesList) return;
     
-    // Cek urutan yang dipilih (asc = terlama/terbaru di bawah, desc = terbaru di atas)
     const isAscending = wishSortSelect ? wishSortSelect.value === "asc" : true;
 
     const { data: wishes, error } = await supabase
@@ -165,16 +185,15 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchWishes();
   });
 
-  if (rsvpForm) {
-    rsvpForm.addEventListener("submit", async (e) => {
+  // SUBMIT FORM UCAPAN
+  if (wishForm) {
+    wishForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const submitBtn = rsvpForm.querySelector("button[type='submit']");
-      const nameInput = document.getElementById("guest-name");
-      const statusSelect = document.getElementById("guest-status");
-      const messageInput = document.getElementById("guest-message");
+      const submitBtn = wishForm.querySelector("button[type='submit']");
+      const nameInput = document.getElementById("wish-name");
+      const messageInput = document.getElementById("wish-message");
 
       const name = nameInput.value.trim();
-      const status = statusSelect ? statusSelect.value : null;
       const message = messageInput.value.trim();
 
       if (name && message) {
@@ -185,24 +204,60 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const { error } = await supabase
           .from("wishes")
-          .insert([{ name, message, status }]);
+          .insert([{ name, message }]);
 
         if (error) {
           alert("Gagal mengirim ucapan, silakan coba lagi.");
-          console.error("Insert error:", error);
+          console.error("Wish insert error:", error);
         } else {
           messageInput.value = "";
-          if (statusSelect) statusSelect.selectedIndex = 0;
-          if (!nameInput.readOnly) {
-            nameInput.value = "";
-          }
-
           await fetchWishes();
         }
 
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.innerHTML = `<i class="fa-solid fa-paper-plane me-2"></i> Kirim Ucapan`;
+        }
+      }
+    });
+  }
+
+  // SUBMIT MODAL RSVP
+  if (modalRsvpForm) {
+    modalRsvpForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const submitBtn = modalRsvpForm.querySelector("button[type='submit']");
+      const nameInput = document.getElementById("modal-guest-name");
+      const statusSelect = document.getElementById("modal-guest-status");
+
+      const name = nameInput.value.trim();
+      const status = statusSelect.value;
+
+      if (name && status) {
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin me-2"></i> Menyimpan...`;
+        }
+
+        const defaultMsg = `Mengonfirmasi kehadiran: ${status}`;
+
+        const { error } = await supabase
+          .from("wishes")
+          .insert([{ name, message: defaultMsg, status }]);
+
+        if (error) {
+          alert("Gagal menyimpan konfirmasi, silakan coba lagi.");
+          console.error("RSVP insert error:", error);
+        } else {
+          alert("Terima kasih! Konfirmasi kehadiran Anda berhasil disimpan.");
+          statusSelect.selectedIndex = 0;
+          closeModal();
+          await fetchWishes();
+        }
+
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = `<i class="fa-solid fa-check me-2"></i> Simpan Konfirmasi`;
         }
       }
     });
@@ -245,7 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .subscribe();
 
   // =============================================================
-  // 4. TOGGLE GALERI (LIHAT LEBIH BANYAK)
+  // 5. TOGGLE GALERI (LIHAT LEBIH BANYAK)
   // =============================================================
   const galleryToggle = document.getElementById("gallery-toggle");
   const galleryMore = document.getElementById("gallery-more");
@@ -262,7 +317,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =============================================================
-  // 5. SALIN NOMOR REKENING HADIAH DIGITAL
+  // 6. SALIN NOMOR REKENING HADIAH DIGITAL
   // =============================================================
   const copyAccountButtons = document.querySelectorAll(".copy-account");
 
@@ -293,7 +348,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =============================================================
-  // 6. ANIMASI SCROLL REVEAL (INTERSECTION OBSERVER)
+  // 7. ANIMASI SCROLL REVEAL (INTERSECTION OBSERVER)
   // =============================================================
   const revealElements = document.querySelectorAll(".reveal-on-scroll");
 
@@ -319,7 +374,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // =============================================================
-  // 7. INTERACTIVE 3D TILT EFFECT UNTUK KARTU (MOUSE/TOUCH)
+  // 8. INTERACTIVE 3D TILT EFFECT UNTUK KARTU (MOUSE/TOUCH)
   // =============================================================
   const tiltElements = document.querySelectorAll(".tilt-element");
 
@@ -344,7 +399,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // =============================================================
-  // 8. CANVAS PARTIKEL ELEGAN 3D DILATAR BELAKANG
+  // 9. CANVAS PARTIKEL ELEGAN 3D DILATAR BELAKANG
   // =============================================================
   const canvas = document.getElementById("canvas3d");
   if (canvas) {

@@ -1758,3 +1758,99 @@ footer::before {
   color: #b06000;
   border: 1px solid #ffeba5;
 }
+
+/* =========================================================
+   STYLE TOMBOL OUTLINE & MODAL POPUP RSVP
+   ========================================================= */
+.btn-secondary-outline {
+  margin-top: 12px;
+  background: transparent;
+  color: var(--terracotta);
+  border: 1px solid var(--terracotta);
+  padding: 12px 28px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 40px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary-outline:hover {
+  background: rgba(168, 93, 75, 0.08);
+  border-color: var(--primary-dark);
+}
+
+/* Modal Backdrop & Container */
+.rsvp-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.rsvp-modal.is-active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.rsvp-modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 15, 12, 0.65);
+  backdrop-filter: blur(4px);
+}
+
+.rsvp-modal-content {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 460px);
+  padding: 34px 28px;
+  background: var(--cream);
+  border: 1px solid var(--gold-soft);
+  border-radius: 12px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.25);
+  transform: scale(0.92);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.rsvp-modal.is-active .rsvp-modal-content {
+  transform: scale(1);
+}
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  border: none;
+  background: transparent;
+  font-size: 1.8rem;
+  color: var(--muted);
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.modal-close:hover {
+  color: var(--terracotta);
+}
+
+.modal-title {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  color: var(--terracotta);
+  margin-bottom: 6px;
+}
+
+.modal-desc {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-bottom: 24px;
+}

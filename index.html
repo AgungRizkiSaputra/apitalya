@@ -256,35 +256,30 @@
       </div>
     </section>
 
-    <!-- Form Ucapan & RSVP -->
+    <!-- Form Ucapan & Doa Restu -->
     <section class="rsvp-section">
       <p class="section-kicker text-center">Leave a note</p>
       <h2 class="section-title text-center">Ucapan &amp; Doa Restu</h2>
       <p class="section-desc text-center">Tuliskan doa terbaik Anda untuk mengiringi langkah kami.</p>
 
-      <form id="rsvp-form" class="rsvp-form">
+      <form id="wish-form" class="wish-form">
         <div class="form-group">
-          <label for="guest-name"><i class="fa-regular fa-user"></i> Nama Lengkap</label>
-          <input type="text" id="guest-name" placeholder="Masukkan nama Anda" required>
+          <label for="wish-name"><i class="fa-regular fa-user"></i> Nama Lengkap</label>
+          <input type="text" id="wish-name" class="guest-name-input" placeholder="Masukkan nama Anda" required>
         </div>
 
         <div class="form-group">
-          <label for="guest-status"><i class="fa-regular fa-circle-check"></i> Konfirmasi Kehadiran</label>
-          <select id="guest-status" class="rsvp-select" required>
-            <option value="" disabled selected>-- Pilih Kehadiran --</option>
-            <option value="Hadir">Hadir</option>
-            <option value="Tidak Hadir">Maaf, Tidak Bisa Hadir</option>
-            <option value="Ragu-ragu">Masih Ragu-ragu</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="guest-message"><i class="fa-regular fa-comment-dots"></i> Ucapan / Doa</label>
-          <textarea id="guest-message" rows="4" placeholder="Tuliskan ucapan & doa restu di sini..." required></textarea>
+          <label for="wish-message"><i class="fa-regular fa-comment-dots"></i> Ucapan / Doa</label>
+          <textarea id="wish-message" rows="4" placeholder="Tuliskan ucapan & doa restu di sini..." required></textarea>
         </div>
 
         <button type="submit" class="btn-primary btn-block">
           <i class="fa-solid fa-paper-plane me-2"></i> Kirim Ucapan
+        </button>
+
+        <!-- Tombol Pemicu Modal Kehadiran -->
+        <button type="button" id="btn-open-rsvp" class="btn-secondary-outline btn-block">
+          <i class="fa-regular fa-circle-check me-2"></i> Konfirmasi Kehadiran (RSVP)
         </button>
       </form>
 
@@ -340,6 +335,38 @@
       <p class="footer-title">Afid &amp; Alya</p>
       <p class="footer-desc">Terima kasih atas kehadiran, doa, dan restu Anda.</p>
     </footer>
+
+    <!-- Modal Jendela Konfirmasi Kehadiran -->
+    <div id="rsvp-modal" class="rsvp-modal" aria-hidden="true">
+      <div class="rsvp-modal-overlay"></div>
+      <div class="rsvp-modal-content">
+        <button type="button" id="btn-close-rsvp" class="modal-close" aria-label="Tutup modal">&times;</button>
+        <p class="section-kicker text-center">Confirmation</p>
+        <h3 class="modal-title text-center">Konfirmasi Kehadiran</h3>
+        <p class="modal-desc text-center">Apakah Anda berkenan hadir dalam acara pernikahan kami?</p>
+
+        <form id="modal-rsvp-form">
+          <div class="form-group">
+            <label for="modal-guest-name"><i class="fa-regular fa-user"></i> Nama Lengkap</label>
+            <input type="text" id="modal-guest-name" class="guest-name-input" placeholder="Masukkan nama Anda" required>
+          </div>
+
+          <div class="form-group">
+            <label for="modal-guest-status"><i class="fa-regular fa-circle-check"></i> Status Kehadiran</label>
+            <select id="modal-guest-status" class="rsvp-select" required>
+              <option value="" disabled selected>-- Pilih Kehadiran --</option>
+              <option value="Hadir">Hadir</option>
+              <option value="Tidak Hadir">Maaf, Tidak Bisa Hadir</option>
+              <option value="Ragu-ragu">Masih Ragu-ragu</option>
+            </select>
+          </div>
+
+          <button type="submit" class="btn-primary btn-block">
+            <i class="fa-solid fa-check me-2"></i> Simpan Konfirmasi
+          </button>
+        </form>
+      </div>
+    </div>
 
   </main>
 
