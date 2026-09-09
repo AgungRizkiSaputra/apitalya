@@ -51,6 +51,15 @@ document.addEventListener("DOMContentLoaded", () => {
     bgMusic.play().then(() => {
       isPlaying = true;
     }).catch(err => console.log("Autoplay blocked:", err));
+
+    // Auto scroll ucapan ke paling bawah jika mode default aktif
+    setTimeout(() => {
+      const wishesList = document.getElementById("wishes-list");
+      const wishSortSelect = document.getElementById("wish-sort");
+      if (wishesList && wishSortSelect?.value === "asc") {
+        wishesList.scrollTop = wishesList.scrollHeight;
+      }
+    }, 400);
   });
 
   musicControl?.addEventListener("click", () => {
@@ -95,12 +104,12 @@ document.addEventListener("DOMContentLoaded", () => {
   updateCountdown();
 
   // =============================================================
-  // 3. FORM UCAPAN & DATABASE SUPABASE (REALTIME)
+  // 3. FORM UCAPAN & DATABASE SUPABASE (REALTIME & SORTING)
   // =============================================================
   const rsvpForm = document.getElementById("rsvp-form");
   const wishesList = document.getElementById("wishes-list");
+  const wishSortSelect = document.getElementById("wish-sort");
 
-  // Fungsi membuat kartu ucapan dengan tombol hapus aktif
   const createWishCard = (id, name, message) => {
     const wishCard = document.createElement("div");
     wishCard.classList.add("wish-item", "card-3d", "reveal-on-scroll", "is-visible");
@@ -121,10 +130,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const fetchWishes = async () => {
     if (!wishesList) return;
     
+    // Cek urutan yang dipilih (asc = terbaru di bawah, desc = terbaru di atas)
+    const isAscending = wishSortSelect ? wishSortSelect.value === "asc" : true;
+
     const { data: wishes, error } = await supabase
       .from("wishes")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: isAscending });
 
     if (error) {
       console.error("Gagal mengambil data dari Supabase:", error);
@@ -135,7 +147,17 @@ document.addEventListener("DOMContentLoaded", () => {
     wishes.forEach(({ id, name, message }) => {
       wishesList.append(createWishCard(id, name, message));
     });
+
+    // Jika mode 'Terbaru di bawah', scroll otomatis ke daftar paling bawah
+    if (isAscending) {
+      wishesList.scrollTop = wishesList.scrollHeight;
+    }
   };
+
+  // Event listener saat opsi pengurutan diubah
+  wishSortSelect?.addEventListener("change", () => {
+    fetchWishes();
+  });
 
   if (rsvpForm) {
     rsvpForm.addEventListener("submit", async (e) => {

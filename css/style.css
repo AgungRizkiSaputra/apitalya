@@ -1647,3 +1647,39 @@ footer::before {
   .wish-item { padding: 18px 20px 18px 28px; }
   .invite-columns { padding: 28px 16px; }
 }
+
+/* =========================================================
+   STYLE DROPDOWN FILTER UCAPAN & DOA RESTU
+   ========================================================= */
+.wishes-header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  max-width: 520px;
+  margin: 0 auto 12px;
+}
+
+.wish-sort-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.wish-sort-select {
+  padding: 6px 12px;
+  border: 1px solid rgba(184, 137, 75, 0.35);
+  border-radius: 6px;
+  background: rgba(255, 253, 249, 0.85);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.wish-sort-select:focus {
+  outline: none;
+  border-color: var(--terracotta);
+}
