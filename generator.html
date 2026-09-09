@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generator Link Undangan - Afid &amp; Alya</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #a85d4b;
+      --bg: #f7f3ed;
+      --card: #ffffff;
+      --text: #2f2925;
+      --muted: #756b63;
+      --border: #e2d8cd;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); padding: 30px 15px; line-height: 1.6; }
+    .container { max-width: 800px; margin: 0 auto; }
+    h1 { color: var(--primary); font-size: 1.8rem; margin-bottom: 8px; }
+    p.desc { color: var(--muted); font-size: 0.9rem; margin-bottom: 25px; }
+
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+    .form-group { margin-bottom: 18px; }
+    label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); }
+    input[type="text"], textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-family: inherit; font-size: 0.95rem; background: #faf8f5; }
+    input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--primary); background: #fff; }
+    
+    .btn { background: var(--primary); color: #fff; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.9rem; width: 100%; transition: opacity 0.2s; }
+    .btn:hover { opacity: 0.9; }
+
+    .result-item { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin-bottom: 15px; border-left: 4px solid var(--primary); }
+    .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .guest-title { font-weight: 700; font-size: 1.1rem; color: var(--primary); }
+    .link-preview { font-size: 0.85rem; color: var(--muted); word-break: break-all; background: #f4eee6; padding: 8px 12px; border-radius: 6px; margin-bottom: 12px; }
+    .actions { display: flex; gap: 10px; }
+    .btn-action { flex: 1; padding: 8px 12px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; text-align: center; text-decoration: none; cursor: pointer; border: 1px solid var(--border); background: #fff; color: var(--text); display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+    .btn-wa { background: #25d366; color: #fff; border: none; }
+    .btn-wa:hover { background: #1eb956; }
+
+    small.hint { font-size: 0.78rem; color: var(--muted); display: block; margin-top: 4px; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Generator Link WhatsApp Undangan</h1>
+    <p class="desc">Alat bantu untuk membuat link undangan otomatis bagi para tamu acara Afid &amp; Alya.</p>
+
+    <div class="card">
+      <div class="form-group">
+        <label for="domain">URL Website Undangan</label>
+        <input type="text" id="domain" value="https://afidalya.netlify.app">
+      </div>
+
+      <div class="form-group">
+        <label for="template">Template Pesan WhatsApp</label>
+        <textarea id="template" rows="5">Kepada Yth. Bapak/Ibu/Saudara/i [nama],
+
+Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan kami.
+
+Detail informasi dan lokasi acara dapat diakses melalui link undangan berikut:
+[link]
+
+Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu.
+
+Terima kasih.
+Salam hangat,
+Afid & Alya</textarea>
+        <small class="hint">Gunakan tag <b>[nama]</b> untuk posisi nama tamu dan <b>[link]</b> untuk link undangannya.</small>
+      </div>
+
+      <div class="form-group">
+        <label for="guests">Daftar Nama Tamu (1 Nama Per Baris)</label>
+        <textarea id="guests" rows="6" placeholder="Budi Santoso
+Siti Aisyah & Suami
+Keluarga Bpk. Dedi"></textarea>
+      </div>
+
+      <button id="btn-generate" class="btn"><i class="fa-solid fa-wand-magic-sparkles me-2"></i> Buat Link Undangan</button>
+    </div>
+
+    <div id="output-list"></div>
+  </div>
+
+  <script>
+    document.getElementById("btn-generate").addEventListener("click", () => {
+      const domain = document.getElementById("domain").value.trim().replace(/\/$/, "");
+      const template = document.getElementById("template").value;
+      const guestsRaw = document.getElementById("guests").value;
+      const outputList = document.getElementById("output-list");
+
+      const guestList = guestsRaw.split("\n").map(n => n.trim()).filter(n => n.length > 0);
+
+      if (guestList.length === 0) {
+        alert("Masukkan minimal 1 nama tamu!");
+        return;
+      }
+
+      outputList.innerHTML = `<h2 style="font-size:1.2rem; margin-bottom:15px;">Hasil Generator (${guestList.length} Tamu)</h2>`;
+
+      guestList.forEach((guest, index) => {
+        const link = `${domain}/?to=${encodeURIComponent(guest)}`;
+        const message = template.replace(/\[nama\]/g, guest).replace(/\[link\]/g, link);
+        const waUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+
+        const item = document.createElement("div");
+        item.className = "result-item";
+        item.innerHTML = `
+          <div class="result-header">
+            <span class="guest-title">${index + 1}. ${escapeHtml(guest)}</span>
+          </div>
+          <div class="link-preview">${escapeHtml(link)}</div>
+          <div class="actions">
+            <button class="btn-action btn-copy" data-text="${escapeHtml(message)}">
+              <i class="fa-regular fa-copy"></i> Salin Pesan
+            </button>
+            <a href="${waUrl}" target="_blank" class="btn-action btn-wa">
+              <i class="fa-brands fa-whatsapp"></i> Kirim ke WA
+            </a>
+          </div>
+        `;
+
+        outputList.appendChild(item);
+      });
+
+      // Event Copy Text
+      document.querySelectorAll(".btn-copy").forEach(btn => {
+        btn.addEventListener("click", function() {
+          const text = this.getAttribute("data-text");
+          navigator.clipboard.writeText(text).then(() => {
+            const originalText = this.innerHTML;
+            this.innerHTML = '<i class="fa-solid fa-check"></i> Tersalin!';
+            setTimeout(() => this.innerHTML = originalText, 2000);
+          });
+        });
+      });
+    });
+
+    function escapeHtml(text) {
+      return text.replace(/[&<>"']/g, (m) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+      }[m]));
+    }
+  </script>
+</body>
+</html>
