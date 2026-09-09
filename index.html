@@ -211,7 +211,16 @@
         </div>
 
       </div>
-      <a class="shared-map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Gedung+Pernikahan" target="_blank" rel="noopener" aria-label="Buka lokasi acara di Google Maps"><i class="fa-solid fa-location-arrow"></i> Buka lokasi di Google Maps</a>
+
+      <!-- Tombol Lokasi & Simpan ke Kalender -->
+      <div class="event-actions">
+        <a class="shared-map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Gedung+Pernikahan" target="_blank" rel="noopener" aria-label="Buka lokasi acara di Google Maps">
+          <i class="fa-solid fa-location-arrow"></i> Buka Lokasi Maps
+        </a>
+        <a class="shared-map-link calendar-link" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Pernikahan+Afid+%26+Alya&dates=20261226T010000Z/20261226T060000Z&details=Walimatul+%27Ursy+Pernikahan+Afid+%26+Alya&location=Gedung+Pernikahan" target="_blank" rel="noopener">
+          <i class="fa-regular fa-calendar-plus"></i> Simpan ke Kalender
+        </a>
+      </div>
     </section>
 
     <!-- Hadiah Digital -->
@@ -257,6 +266,16 @@
         <div class="form-group">
           <label for="guest-name"><i class="fa-regular fa-user"></i> Nama Lengkap</label>
           <input type="text" id="guest-name" placeholder="Masukkan nama Anda" required>
+        </div>
+
+        <div class="form-group">
+          <label for="guest-status"><i class="fa-regular fa-circle-check"></i> Konfirmasi Kehadiran</label>
+          <select id="guest-status" class="rsvp-select" required>
+            <option value="" disabled selected>-- Pilih Kehadiran --</option>
+            <option value="Hadir">Hadir</option>
+            <option value="Tidak Hadir">Maaf, Tidak Bisa Hadir</option>
+            <option value="Ragu-ragu">Masih Ragu-ragu</option>
+          </select>
         </div>
 
         <div class="form-group">

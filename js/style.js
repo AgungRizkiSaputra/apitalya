@@ -104,21 +104,29 @@ document.addEventListener("DOMContentLoaded", () => {
   updateCountdown();
 
   // =============================================================
-  // 3. FORM UCAPAN & DATABASE SUPABASE (REALTIME & SORTING)
+  // 3. FORM UCAPAN & DATABASE SUPABASE (REALTIME, SORTING & RSVP STATUS)
   // =============================================================
   const rsvpForm = document.getElementById("rsvp-form");
   const wishesList = document.getElementById("wishes-list");
   const wishSortSelect = document.getElementById("wish-sort");
 
-  const createWishCard = (id, name, message) => {
+  const createWishCard = (id, name, message, status) => {
     const wishCard = document.createElement("div");
     wishCard.classList.add("wish-item", "card-3d", "reveal-on-scroll", "is-visible");
     if (id) wishCard.dataset.id = id;
     wishCard.dataset.name = name;
     wishCard.dataset.message = message;
+
+    // Badge status kehadiran
+    let statusBadgeHtml = "";
+    if (status) {
+      const slugStatus = status.toLowerCase().replace(/\s+/g, '-');
+      statusBadgeHtml = `<span class="wish-badge badge-${slugStatus}">${escapeHtml(status)}</span>`;
+    }
+
     wishCard.innerHTML = `
       <div class="wish-content">
-        <strong>${escapeHtml(name)}</strong>
+        <strong>${escapeHtml(name)} ${statusBadgeHtml}</strong>
         <p>${escapeHtml(message)}</p>
       </div>
       <button class="delete-wish" type="button" aria-label="Hapus ucapan">
@@ -130,7 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const fetchWishes = async () => {
     if (!wishesList) return;
     
-    // Cek urutan yang dipilih (asc = terbaru di bawah, desc = terbaru di atas)
+    // Cek urutan yang dipilih (asc = terlama/terbaru di bawah, desc = terbaru di atas)
     const isAscending = wishSortSelect ? wishSortSelect.value === "asc" : true;
 
     const { data: wishes, error } = await supabase
@@ -144,17 +152,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     wishesList.replaceChildren();
-    wishes.forEach(({ id, name, message }) => {
-      wishesList.append(createWishCard(id, name, message));
+    wishes.forEach(({ id, name, message, status }) => {
+      wishesList.append(createWishCard(id, name, message, status));
     });
 
-    // Jika mode 'Terbaru di bawah', scroll otomatis ke daftar paling bawah
     if (isAscending) {
       wishesList.scrollTop = wishesList.scrollHeight;
     }
   };
 
-  // Event listener saat opsi pengurutan diubah
   wishSortSelect?.addEventListener("change", () => {
     fetchWishes();
   });
@@ -164,9 +170,11 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       const submitBtn = rsvpForm.querySelector("button[type='submit']");
       const nameInput = document.getElementById("guest-name");
+      const statusSelect = document.getElementById("guest-status");
       const messageInput = document.getElementById("guest-message");
 
       const name = nameInput.value.trim();
+      const status = statusSelect ? statusSelect.value : null;
       const message = messageInput.value.trim();
 
       if (name && message) {
@@ -177,13 +185,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const { error } = await supabase
           .from("wishes")
-          .insert([{ name, message }]);
+          .insert([{ name, message, status }]);
 
         if (error) {
           alert("Gagal mengirim ucapan, silakan coba lagi.");
           console.error("Insert error:", error);
         } else {
           messageInput.value = "";
+          if (statusSelect) statusSelect.selectedIndex = 0;
           if (!nameInput.readOnly) {
             nameInput.value = "";
           }

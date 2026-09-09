@@ -1683,3 +1683,78 @@ footer::before {
   outline: none;
   border-color: var(--terracotta);
 }
+
+/* =========================================================
+   STYLE UNTUK TOMBOL KALENDER & BADGE STATUS KEHADIRAN (RSVP)
+   ========================================================= */
+.event-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 38px;
+}
+
+.event-actions .shared-map-link {
+  margin-top: 0;
+}
+
+.calendar-link {
+  color: var(--primary-dark);
+  border-bottom-color: var(--primary-dark);
+}
+
+.rsvp-select {
+  width: 100%;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 1px solid var(--border-line);
+  border-radius: 0;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  background: transparent;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.rsvp-select:focus {
+  outline: none;
+  border-bottom-color: var(--primary-dark);
+}
+
+.rsvp-select option {
+  background: var(--cream);
+  color: var(--ink);
+}
+
+/* Badge Status Kehadiran pada Kartu Ucapan */
+.wish-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 12px;
+  margin-left: 8px;
+  vertical-align: middle;
+  letter-spacing: 0.5px;
+}
+
+.wish-badge.badge-hadir {
+  background: #e6f4ea;
+  color: #1e7e34;
+  border: 1px solid #b7e1cd;
+}
+
+.wish-badge.badge-tidak-hadir {
+  background: #fce8e6;
+  color: #c5221f;
+  border: 1px solid #f5c6cb;
+}
+
+.wish-badge.badge-ragu-ragu {
+  background: #fef7e0;
+  color: #b06000;
+  border: 1px solid #ffeba5;
+}
