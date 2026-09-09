@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rekap Kehadiran Tamu (RSVP) - Afid &amp; Alya</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    :root {
+      --primary: #a85d4b;
+      --bg: #f7f3ed;
+      --card: #ffffff;
+      --text: #2f2925;
+      --muted: #756b63;
+      --border: #e2d8cd;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); padding: 30px 15px; line-height: 1.6; }
+    .container { max-width: 900px; margin: 0 auto; }
+    
+    .header { margin-bottom: 25px; text-align: center; }
+    h1 { color: var(--primary); font-size: 1.8rem; margin-bottom: 6px; }
+    p.desc { color: var(--muted); font-size: 0.9rem; }
+
+    /* Counter Stat Cards */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
+    .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 18px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+    .stat-card h3 { font-size: 2rem; color: var(--primary); font-weight: 700; line-height: 1; margin-bottom: 6px; }
+    .stat-card p { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600; }
+
+    /* Table & Card Area */
+    .table-container { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
+    th, td { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+    th { background: #faf8f5; color: var(--muted); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.5px; }
+    tr:last-child td { border-bottom: none; }
+
+    /* Badge Style */
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+    .badge-hadir { background: #e6f4ea; color: #1e7e34; }
+    .badge-tidak-hadir { background: #fce8e6; color: #c5221f; }
+    .badge-ragu-ragu { background: #fef7e0; color: #b06000; }
+
+    .btn-refresh { background: var(--primary); color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.85rem; margin-bottom: 15px; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-refresh:hover { opacity: 0.9; }
+    .empty-state { text-align: center; padding: 40px; color: var(--muted); font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1>Rekap Kehadiran Tamu Undangan</h1>
+      <p class="desc">Daftar konfirmasi kehadiran (RSVP) dari tamu acara Afid &amp; Alya.</p>
+    </div>
+
+    <!-- Ringkasan Jumlah -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3 id="count-total">0</h3>
+        <p>Total Respon</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="count-hadir" style="color: #1e7e34;">0</h3>
+        <p>Hadir</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="count-tidak-hadir" style="color: #c5221f;">0</h3>
+        <p>Tidak Hadir</p>
+      </div>
+      <div class="stat-card">
+        <h3 id="count-ragu" style="color: #b06000;">0</h3>
+        <p>Ragu-ragu</p>
+      </div>
+    </div>
+
+    <!-- Tabel Data -->
+    <div class="table-container">
+      <button id="btn-refresh" class="btn-refresh"><i class="fa-solid fa-rotate-right"></i> Refresh Data</button>
+      
+      <table>
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Nama Tamu</th>
+            <th>Status Kehadiran</th>
+            <th>Waktu Konfirmasi</th>
+          </tr>
+        </thead>
+        <tbody id="rsvp-table-body">
+          <tr>
+            <td colspan="4" class="empty-state">Memuat data kehadiran...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const SUPABASE_URL = "https://mkoewddusqyvhgdmkpdz.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rb2V3ZGR1c3F5dmhnZG1rcGR6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg4Njg1NjUsImV4cCI6MjEwNDQ0NDU2NX0.yaYgBkGHpYAlkpB2ffJKA8B_CF4cnwzzhbivzr9ogAU";
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function loadRsvpData() {
+      const tbody = document.getElementById("rsvp-table-body");
+      
+      // Ambil data yang kolom status-nya tidak null
+      const { data, error } = await supabase
+        .from("wishes")
+        .select("*")
+        .not("status", "is", null)
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("Error loading data:", error);
+        tbody.innerHTML = `<tr><td colspan="4" class="empty-state">Gagal mengambil data dari server.</td></tr>`;
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="empty-state">Belum ada konfirmasi kehadiran dari tamu.</td></tr>`;
+        updateStats(0, 0, 0, 0);
+        return;
+      }
+
+      let countHadir = 0;
+      let countTidakHadir = 0;
+      let countRagu = 0;
+
+      tbody.innerHTML = "";
+      data.forEach((row, index) => {
+        const status = row.status || "Hadir";
+        let badgeClass = "badge-hadir";
+
+        if (status === "Hadir") {
+          countHadir++;
+          badgeClass = "badge-hadir";
+        } else if (status === "Tidak Hadir") {
+          countTidakHadir++;
+          badgeClass = "badge-tidak-hadir";
+        } else {
+          countRagu++;
+          badgeClass = "badge-ragu-ragu";
+        }
+
+        const dateStr = row.created_at ? new Date(row.created_at).toLocaleString("id-ID", {
+          dateStyle: "medium",
+          timeStyle: "short"
+        }) : "-";
+
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${index + 1}</td>
+          <td><strong>${escapeHtml(row.name)}</strong></td>
+          <td><span class="badge ${badgeClass}">${escapeHtml(status)}</span></td>
+          <td><small style="color:var(--muted);">${dateStr}</small></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      updateStats(data.length, countHadir, countTidakHadir, countRagu);
+    }
+
+    function updateStats(total, hadir, tidak, ragu) {
+      document.getElementById("count-total").innerText = total;
+      document.getElementById("count-hadir").innerText = hadir;
+      document.getElementById("count-tidak-hadir").innerText = tidak;
+      document.getElementById("count-ragu").innerText = ragu;
+    }
+
+    function escapeHtml(text) {
+      return text ? text.replace(/[&<>"']/g, (m) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+      }[m])) : '';
+    }
+
+    document.getElementById("btn-refresh").addEventListener("click", loadRsvpData);
+    document.addEventListener("DOMContentLoaded", loadRsvpData);
+  </script>
+</body>
+</html>

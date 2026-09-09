@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
       coverGuestElement.textContent = guestName;
     }
 
-    // Isi otomatis & KUNCI semua input nama (Form Ucapan & Form Modal RSVP)
+    // Isi otomatis & KUNCI semua input nama
     const nameInputs = document.querySelectorAll(".guest-name-input");
     nameInputs.forEach(input => {
       input.value = guestName;
@@ -132,22 +132,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const wishesList = document.getElementById("wishes-list");
   const wishSortSelect = document.getElementById("wish-sort");
 
-  const createWishCard = (id, name, message, status) => {
+  const createWishCard = (id, name, message) => {
     const wishCard = document.createElement("div");
     wishCard.classList.add("wish-item", "card-3d", "reveal-on-scroll", "is-visible");
     if (id) wishCard.dataset.id = id;
     wishCard.dataset.name = name;
     wishCard.dataset.message = message;
 
-    let statusBadgeHtml = "";
-    if (status) {
-      const slugStatus = status.toLowerCase().replace(/\s+/g, '-');
-      statusBadgeHtml = `<span class="wish-badge badge-${slugStatus}">${escapeHtml(status)}</span>`;
-    }
-
     wishCard.innerHTML = `
       <div class="wish-content">
-        <strong>${escapeHtml(name)} ${statusBadgeHtml}</strong>
+        <strong>${escapeHtml(name)}</strong>
         <p>${escapeHtml(message)}</p>
       </div>
       <button class="delete-wish" type="button" aria-label="Hapus ucapan">
@@ -156,14 +150,18 @@ document.addEventListener("DOMContentLoaded", () => {
     return wishCard;
   };
 
+  // AMBIL DATA KHUSUS UCAPAN (FILTER PESAN YANG TIDAK KOSONG)
   const fetchWishes = async () => {
     if (!wishesList) return;
     
     const isAscending = wishSortSelect ? wishSortSelect.value === "asc" : true;
 
+    // Hanya ambil data yang kolom 'message'-nya terisi (bukan null atau string kosong)
     const { data: wishes, error } = await supabase
       .from("wishes")
       .select("*")
+      .not("message", "is", null)
+      .neq("message", "")
       .order("created_at", { ascending: isAscending });
 
     if (error) {
@@ -172,8 +170,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     wishesList.replaceChildren();
-    wishes.forEach(({ id, name, message, status }) => {
-      wishesList.append(createWishCard(id, name, message, status));
+    wishes.forEach(({ id, name, message }) => {
+      wishesList.append(createWishCard(id, name, message));
     });
 
     if (isAscending) {
@@ -185,7 +183,7 @@ document.addEventListener("DOMContentLoaded", () => {
     fetchWishes();
   });
 
-  // SUBMIT FORM UCAPAN
+  // SUBMIT FORM UCAPAN (KHUSUS PESAN & DOA)
   if (wishForm) {
     wishForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -222,7 +220,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // SUBMIT MODAL RSVP
+  // SUBMIT MODAL RSVP (KHUSUS KETERANGAN KEHADIRAN)
   if (modalRsvpForm) {
     modalRsvpForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -239,11 +237,10 @@ document.addEventListener("DOMContentLoaded", () => {
           submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin me-2"></i> Menyimpan...`;
         }
 
-        const defaultMsg = `Mengonfirmasi kehadiran: ${status}`;
-
+        // Simpan status tanpa mengisi 'message' agar tidak muncul di daftar ucapan
         const { error } = await supabase
           .from("wishes")
-          .insert([{ name, message: defaultMsg, status }]);
+          .insert([{ name, status, message: null }]);
 
         if (error) {
           alert("Gagal menyimpan konfirmasi, silakan coba lagi.");
@@ -252,7 +249,6 @@ document.addEventListener("DOMContentLoaded", () => {
           alert("Terima kasih! Konfirmasi kehadiran Anda berhasil disimpan.");
           statusSelect.selectedIndex = 0;
           closeModal();
-          await fetchWishes();
         }
 
         if (submitBtn) {
