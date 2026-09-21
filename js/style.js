@@ -326,6 +326,54 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Pratinjau foto galeri dengan navigasi keyboard dan tombol panah
+  const galleryImages = Array.from(document.querySelectorAll(".gallery-item img"));
+  const galleryLightbox = document.getElementById("gallery-lightbox");
+  const galleryLightboxImage = document.getElementById("gallery-lightbox-image");
+  const galleryLightboxCaption = document.getElementById("gallery-lightbox-caption");
+  const galleryLightboxCloseButtons = galleryLightbox?.querySelectorAll("[data-lightbox-close]");
+  const galleryLightboxPrev = galleryLightbox?.querySelector(".gallery-lightbox-prev");
+  const galleryLightboxNext = galleryLightbox?.querySelector(".gallery-lightbox-next");
+  let activeGalleryImage = 0;
+
+  const showGalleryImage = (index) => {
+    if (!galleryLightboxImage || !galleryImages.length) return;
+    activeGalleryImage = (index + galleryImages.length) % galleryImages.length;
+    const image = galleryImages[activeGalleryImage];
+    galleryLightboxImage.src = image.src;
+    galleryLightboxImage.alt = image.alt;
+    if (galleryLightboxCaption) {
+      galleryLightboxCaption.textContent = image.closest(".gallery-item")?.querySelector("figcaption")?.textContent || "";
+    }
+  };
+
+  const closeGalleryLightbox = () => {
+    galleryLightbox?.classList.remove("is-active");
+    galleryLightbox?.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("lightbox-open");
+  };
+
+  galleryImages.forEach((image, index) => {
+    image.addEventListener("click", () => {
+      activeGalleryImage = index;
+      showGalleryImage(activeGalleryImage);
+      galleryLightbox?.classList.add("is-active");
+      galleryLightbox?.setAttribute("aria-hidden", "false");
+      document.body.classList.add("lightbox-open");
+    });
+  });
+
+  galleryLightboxPrev?.addEventListener("click", () => showGalleryImage(activeGalleryImage - 1));
+  galleryLightboxNext?.addEventListener("click", () => showGalleryImage(activeGalleryImage + 1));
+  galleryLightboxCloseButtons?.forEach((button) => button.addEventListener("click", closeGalleryLightbox));
+
+  document.addEventListener("keydown", (event) => {
+    if (!galleryLightbox?.classList.contains("is-active")) return;
+    if (event.key === "Escape") closeGalleryLightbox();
+    if (event.key === "ArrowLeft") showGalleryImage(activeGalleryImage - 1);
+    if (event.key === "ArrowRight") showGalleryImage(activeGalleryImage + 1);
+  });
+
   // =============================================================
   // 6. SALIN NOMOR REKENING HADIAH DIGITAL
   // =============================================================

@@ -1362,9 +1362,8 @@ footer::before {
    GALERI: PINTEREST MASONRY DENGAN FOTO NATURAL
    ========================================================= */
 .gallery-grid {
-  column-count: 3;
-  column-gap: 14px;
-  column-fill: balance;
+  display: grid;
+  gap: 14px;
   width: min(100%, 780px);
   margin: 45px auto 0;
 }
@@ -1373,15 +1372,39 @@ footer::before {
   text-align: left;
 }
 
+.gallery-featured {
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  grid-template-rows: 180px 180px 220px;
+  gap: 14px;
+}
+
+.gallery-featured .gallery-tall {
+  grid-row: 1 / span 2;
+}
+
+.gallery-featured .gallery-wide {
+  grid-column: 1 / -1;
+  height: 220px;
+}
+
+.gallery-featured .gallery-item {
+  margin: 0;
+}
+
+.gallery-featured .gallery-item img {
+  height: 100%;
+  object-fit: cover;
+}
+
 .gallery-item {
-  display: inline-block;
+  display: block;
   position: relative;
   width: 100%;
   margin: 0 0 14px;
   overflow: hidden;
   border-radius: 8px;
   background: transparent;
-  break-inside: avoid;
 }
 
 .gallery-item img {
@@ -1424,6 +1447,8 @@ footer::before {
 .gallery-item:hover img {
   transform: scale(1.015);
 }
+
+.gallery-item img { cursor: zoom-in; }
 
 .invite-columns {
   display: grid;
@@ -1485,12 +1510,14 @@ footer::before {
 
 .gallery-more {
   display: none;
+  column-count: 3;
+  column-gap: 14px;
   opacity: 0;
   transform: translateY(12px);
 }
 
 .gallery-more.is-expanded {
-  display: contents;
+  display: block;
   opacity: 1;
   transform: translateY(0);
   animation: galleryReveal 0.55s ease both;
@@ -1499,7 +1526,99 @@ footer::before {
 .gallery-more .gallery-item {
   display: inline-block;
   height: auto;
+  break-inside: avoid;
 }
+
+.gallery-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.gallery-lightbox.is-active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.gallery-lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(25, 18, 15, 0.86);
+  backdrop-filter: blur(5px);
+}
+
+.gallery-lightbox-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: min(100%, 980px);
+  height: min(100%, 760px);
+}
+
+.gallery-lightbox-content img {
+  display: block;
+  max-width: calc(100% - 120px);
+  max-height: calc(100% - 70px);
+  width: auto;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+.gallery-lightbox-close,
+.gallery-lightbox-nav {
+  position: absolute;
+  z-index: 2;
+  border: 0;
+  color: #fffaf3;
+  background: rgba(255, 255, 255, 0.14);
+  cursor: pointer;
+}
+
+.gallery-lightbox-close {
+  top: 0;
+  right: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  font-size: 1.7rem;
+}
+
+.gallery-lightbox-nav {
+  top: 50%;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  transform: translateY(-50%);
+}
+
+.gallery-lightbox-prev { left: 12px; }
+.gallery-lightbox-next { right: 12px; }
+
+.gallery-lightbox-content p {
+  position: absolute;
+  right: 70px;
+  bottom: 0;
+  left: 70px;
+  margin: 0;
+  color: #fffaf3;
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  font-style: italic;
+  text-align: center;
+}
+
+body.lightbox-open { overflow: hidden; }
 
 .gallery-toggle {
   margin-top: 28px;
@@ -1653,13 +1772,19 @@ footer::before {
   .story-marker { display: none; }
   .story-copy { grid-column: 2; grid-row: 1; padding-bottom: 44px; }
   .story-copy h3 { font-size: 1.7rem; }
-  .gallery-grid { column-count: 2; column-gap: 10px; margin-top: 42px; }
+  .gallery-grid { gap: 10px; margin-top: 42px; }
+  .gallery-featured {
+    grid-template-rows: 140px 140px 180px;
+    gap: 10px;
+  }
+  .gallery-featured .gallery-wide { height: 180px; }
   .gallery-item { margin-bottom: 10px; }
   .gallery-item figcaption { right: 12px; bottom: 10px; left: 12px; font-size: 0.95rem; }
   .invite-columns { grid-template-columns: 1fr; gap: 28px; margin-top: 42px; }
   .invite-rule { width: 80px; height: 1px; min-height: 0; margin: 0 auto; }
   .story-step { right: 0; }
   .gallery-more .gallery-item { height: auto; }
+  .gallery-more.is-expanded { column-count: 2; column-gap: 10px; }
   .wish-item { padding: 18px 20px 18px 28px; }
   .invite-columns { padding: 28px 16px; }
 }

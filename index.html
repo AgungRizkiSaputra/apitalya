@@ -149,6 +149,7 @@
         <p class="section-desc">Beberapa potret kecil dari perjalanan yang kami syukuri.</p>
       </div>
       <div class="gallery-grid gallery-pinterest">
+        <div class="gallery-featured">
       <!-- Foto Portrait/Tegak (174.jpeg) dipasang di gallery-tall -->
       <figure class="gallery-item gallery-tall reveal-on-scroll">
         <img src="assets/images/gallery/174.jpeg" alt="Momen pasangan di pernikahan">
@@ -171,6 +172,7 @@
         <img src="assets/images/gallery/15.jpeg" alt="Dekorasi bunga pernikahan">
         <figcaption>With gratitude</figcaption>
       </figure>
+        </div>
 
       <div class="gallery-more" id="gallery-more">
         <!-- Foto Portrait/Tegak (176.jpeg) -->
@@ -249,6 +251,17 @@
     </div>
       <button class="gallery-toggle" id="gallery-toggle" type="button" aria-expanded="false"><span>Lihat lebih banyak</span><i class="fa-solid fa-arrow-down"></i></button>
     </section>
+
+    <div id="gallery-lightbox" class="gallery-lightbox" aria-hidden="true">
+      <div class="gallery-lightbox-backdrop" data-lightbox-close></div>
+      <div class="gallery-lightbox-content" role="dialog" aria-modal="true" aria-label="Pratinjau foto galeri">
+        <button class="gallery-lightbox-close" type="button" aria-label="Tutup pratinjau" data-lightbox-close>&times;</button>
+        <button class="gallery-lightbox-nav gallery-lightbox-prev" type="button" aria-label="Foto sebelumnya">&#10094;</button>
+        <img id="gallery-lightbox-image" src="" alt="">
+        <button class="gallery-lightbox-nav gallery-lightbox-next" type="button" aria-label="Foto berikutnya">&#10095;</button>
+        <p id="gallery-lightbox-caption"></p>
+      </div>
+    </div>
 
     <!-- Section Hitung Mundur -->
     <section class="countdown-section text-center">
