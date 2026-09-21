@@ -14,7 +14,7 @@
   --muted: #756b63;
   --line: rgba(168, 93, 75, 0.22);
   --terracotta: #a85d4b;
-  --font-heading: 'Sacramento', cursive;
+  --font-heading: 'Great Vibes', cursive;
   --font-serif: 'Cormorant Garamond', serif;
   --font-body: 'Plus Jakarta Sans', sans-serif;
 }
@@ -86,7 +86,7 @@ body::after {
   inset: 0;
   width: 100%;
   height: 100vh;
-  background: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+  background: url('../assets/images/gallery/50.jpeg') center/cover no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -567,7 +567,7 @@ body::after {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cg fill='none' stroke='%23b8894b' stroke-width='1.2' opacity='.55'%3E%3Cpath d='M5 195C18 116 77 48 187 7'/%3E%3Cpath d='M42 144c-5-24-17-41-38-52M68 108c-1-23-9-42-25-57M102 78c3-20 0-38-10-53M135 53c7-15 8-29 4-42'/%3E%3Cpath d='M42 143c18-5 31-1 40 11M68 108c18-2 30 4 37 16M102 78c16 3 26 11 30 24M135 53c13 5 21 14 23 25'/%3E%3C/g%3E%3C/svg%3E");
 }
 
-.cover-section { background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1800&q=85'); }
+.cover-section { background-image: url('../assets/images/gallery/50.jpeg'); }
 .cover-section::before { inset: 18px; border: 1px solid rgba(255,255,255,0.45); }
 .cover-overlay { background: linear-gradient(135deg, rgba(35, 24, 20, 0.45), rgba(35, 24, 20, 0.78)); }
 .cover-content { width: min(90%, 620px); padding: 48px 28px; animation: coverReveal 1.2s ease both; }
@@ -744,8 +744,10 @@ main section { padding: 112px 0; }
 }
 
 .avatar-holder.photo-modern img {
-  filter: saturate(0.98) contrast(1.04);
-  object-position: center;
+  filter: none;
+  image-rendering: auto;
+  object-fit: cover;
+  object-position: center 42%;
 }
 
 .couple-card h3 { margin-top: 24px; }
