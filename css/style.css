@@ -1358,56 +1358,71 @@ footer::before {
   font-size: 0.82rem;
 }
 
+/* =========================================================
+   GALERI: PINTEREST MASONRY DENGAN FOTO NATURAL
+   ========================================================= */
 .gallery-grid {
-  display: grid;
-  grid-template-columns: 1.05fr 0.95fr 0.95fr;
-  grid-auto-rows: 240px;
-  gap: 14px;
-  margin-top: 55px;
+  column-count: 3;
+  column-gap: 14px;
+  column-fill: balance;
+  width: min(100%, 780px);
+  margin: 45px auto 0;
+}
+
+.gallery-pinterest {
+  text-align: left;
 }
 
 .gallery-item {
+  display: inline-block;
   position: relative;
-  min-height: 0;
-  margin: 0;
+  width: 100%;
+  margin: 0 0 14px;
   overflow: hidden;
-  background: var(--paper);
+  border-radius: 8px;
+  background: transparent;
+  break-inside: avoid;
 }
-
-.gallery-item.gallery-tall { grid-row: span 2; }
-.gallery-item.gallery-wide { grid-column: 2 / span 2; }
 
 .gallery-item img {
-  width: 100%;
-  height: 100%;
   display: block;
-  object-fit: cover;
-  filter: saturate(0.88) contrast(1.04);
-  transition: transform 0.8s cubic-bezier(0.2, 0.75, 0.25, 1), filter 0.5s ease;
-}
-
-.gallery-item:hover img {
-  filter: saturate(1) contrast(1.05);
-  transform: scale(1.06);
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: center;
+  filter: none;
+  transform: none;
+  transition: transform 0.35s ease;
 }
 
 .gallery-item::after {
   position: absolute;
-  inset: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 48%;
   content: '';
-  background: linear-gradient(transparent 45%, rgba(35, 25, 20, 0.62));
+  background: linear-gradient(to top, rgba(35, 25, 20, 0.68), transparent);
   pointer-events: none;
 }
 
 .gallery-item figcaption {
   position: absolute;
-  bottom: 16px;
-  left: 18px;
+  right: 16px;
+  bottom: 14px;
+  left: 16px;
   z-index: 1;
   color: #fffaf3;
   font-family: var(--font-serif);
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-style: italic;
+  text-align: left;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.gallery-item:hover img {
+  transform: scale(1.015);
 }
 
 .invite-columns {
@@ -1470,22 +1485,21 @@ footer::before {
 
 .gallery-more {
   display: none;
-  grid-column: 1 / -1;
-  grid-template-columns: 1fr 1fr;
-  gap: 14px;
-  overflow: hidden;
   opacity: 0;
   transform: translateY(12px);
 }
 
 .gallery-more.is-expanded {
-  display: grid;
+  display: contents;
   opacity: 1;
   transform: translateY(0);
   animation: galleryReveal 0.55s ease both;
 }
 
-.gallery-more .gallery-item { height: 240px; }
+.gallery-more .gallery-item {
+  display: inline-block;
+  height: auto;
+}
 
 .gallery-toggle {
   margin-top: 28px;
@@ -1639,15 +1653,13 @@ footer::before {
   .story-marker { display: none; }
   .story-copy { grid-column: 2; grid-row: 1; padding-bottom: 44px; }
   .story-copy h3 { font-size: 1.7rem; }
-  .gallery-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 180px; gap: 9px; margin-top: 42px; }
-  .gallery-item.gallery-tall { grid-row: span 2; }
-  .gallery-item.gallery-wide { grid-column: 1 / span 2; }
-  .gallery-item figcaption { bottom: 10px; left: 12px; font-size: 0.95rem; }
+  .gallery-grid { column-count: 2; column-gap: 10px; margin-top: 42px; }
+  .gallery-item { margin-bottom: 10px; }
+  .gallery-item figcaption { right: 12px; bottom: 10px; left: 12px; font-size: 0.95rem; }
   .invite-columns { grid-template-columns: 1fr; gap: 28px; margin-top: 42px; }
   .invite-rule { width: 80px; height: 1px; min-height: 0; margin: 0 auto; }
   .story-step { right: 0; }
-  .gallery-more { grid-template-columns: 1fr; gap: 9px; }
-  .gallery-more .gallery-item { height: 180px; }
+  .gallery-more .gallery-item { height: auto; }
   .wish-item { padding: 18px 20px 18px 28px; }
   .invite-columns { padding: 28px 16px; }
 }
