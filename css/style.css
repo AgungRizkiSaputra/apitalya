@@ -14,7 +14,7 @@
   --muted: #756b63;
   --line: rgba(168, 93, 75, 0.22);
   --terracotta: #a85d4b;
-  --font-heading: 'Great Vibes', cursive;
+  --font-heading: 'Alex Brush', cursive;
   --font-serif: 'Cormorant Garamond', serif;
   --font-body: 'Plus Jakarta Sans', sans-serif;
 }
@@ -748,6 +748,7 @@ main section { padding: 112px 0; }
   image-rendering: auto;
   object-fit: cover;
   object-position: center 42%;
+  transform: scale(1.3);
 }
 
 .couple-card h3 { margin-top: 24px; }
