@@ -48,6 +48,15 @@ document.addEventListener("DOMContentLoaded", () => {
     mainContent.classList.remove("content-hidden");
     musicControl.classList.remove("hide");
 
+    requestAnimationFrame(() => {
+      mainContent.querySelectorAll(".reveal-on-scroll").forEach((element) => {
+        const rect = element.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
+          element.classList.add("is-visible");
+        }
+      });
+    });
+
     bgMusic.play().then(() => {
       isPlaying = true;
     }).catch(err => console.log("Autoplay blocked:", err));
@@ -418,9 +427,20 @@ document.addEventListener("DOMContentLoaded", () => {
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.14 });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
 
     revealElements.forEach((element) => revealObserver.observe(element));
+
+    // Reveal items already visible on short mobile viewports immediately.
+    requestAnimationFrame(() => {
+      revealElements.forEach((element) => {
+        const rect = element.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
+          element.classList.add("is-visible");
+          revealObserver.unobserve(element);
+        }
+      });
+    });
   } else {
     revealElements.forEach((element) => element.classList.add("is-visible"));
   }
