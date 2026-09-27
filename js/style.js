@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+  document.body.classList.add("invitation-locked");
   // =============================================================
   // 0. BACA PARAMETER NAMA TAMU DARI URL (?to=Nama+Tamu) & KUNCI FORM
   // =============================================================
@@ -44,11 +45,17 @@ document.addEventListener("DOMContentLoaded", () => {
   let isPlaying = false;
 
   btnOpen?.addEventListener("click", () => {
-    cover.classList.add("slide-up");
-    mainContent.classList.remove("content-hidden");
+    // Start audio from the user gesture before beginning the visual transition.
+    bgMusic.play().then(() => {
+      isPlaying = true;
+    }).catch(err => console.log("Autoplay blocked:", err));
+
+    document.body.classList.add("invitation-open");
+    document.body.classList.remove("invitation-locked");
     musicControl.classList.remove("hide");
 
     requestAnimationFrame(() => {
+      cover.classList.add("slide-up");
       mainContent.querySelectorAll(".reveal-on-scroll").forEach((element) => {
         const rect = element.getBoundingClientRect();
         if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
@@ -56,10 +63,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     });
-
-    bgMusic.play().then(() => {
-      isPlaying = true;
-    }).catch(err => console.log("Autoplay blocked:", err));
 
     setTimeout(() => {
       const wishesList = document.getElementById("wishes-list");
