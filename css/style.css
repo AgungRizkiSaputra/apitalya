@@ -1454,9 +1454,13 @@ footer::before {
   display: grid;
   grid-template-columns: 1fr 1px 1fr;
   gap: 45px;
-  align-items: center;
+  align-items: start;
   max-width: 780px;
   margin: 55px auto 0;
+}
+
+.invite-group {
+  text-align: left;
 }
 
 .invite-group h3 {
@@ -1476,6 +1480,7 @@ footer::before {
   height: 100%;
   min-height: 90px;
   background: var(--gold-soft);
+  align-self: stretch;
 }
 
 /* Enhanced story milestones */
@@ -1697,11 +1702,18 @@ body.lightbox-open { overflow: hidden; }
   list-style: none;
   color: var(--muted);
   font-size: 0.82rem;
+  line-height: 1.65;
+}
+
+.family-list li {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr);
+  align-items: start;
+  text-align: left;
 }
 
 .family-list li::before {
   content: '—';
-  margin-right: 8px;
   color: var(--gold);
 }
 
@@ -1787,6 +1799,89 @@ body.lightbox-open { overflow: hidden; }
   .gallery-more.is-expanded { column-count: 2; column-gap: 10px; }
   .wish-item { padding: 18px 20px 18px 28px; }
   .invite-columns { padding: 28px 16px; }
+}
+
+/* Refined family invitation layout */
+.invite-columns {
+  grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
+  gap: clamp(28px, 5vw, 58px);
+  padding: 42px clamp(22px, 5vw, 54px);
+  border: 1px solid rgba(184, 137, 75, 0.28);
+  background: rgba(255, 253, 249, 0.34);
+  box-shadow: 0 18px 38px rgba(62, 43, 32, 0.06);
+}
+
+.invite-group {
+  position: relative;
+  padding-top: 16px;
+}
+
+.invite-group::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 44px;
+  height: 2px;
+  content: '';
+  background: var(--terracotta);
+}
+
+.invite-label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+  color: var(--terracotta);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+}
+
+.invite-label::after {
+  flex: 1;
+  height: 1px;
+  content: '';
+  background: var(--gold-soft);
+  opacity: 0.7;
+}
+
+.family-list {
+  counter-reset: family-item;
+  gap: 0;
+  margin-top: 0;
+}
+
+.family-list li {
+  counter-increment: family-item;
+  grid-template-columns: 28px minmax(0, 1fr);
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(184, 137, 75, 0.16);
+  line-height: 1.55;
+}
+
+.family-list li:last-child {
+  border-bottom: 0;
+}
+
+.family-list li::before {
+  content: counter(family-item, decimal-leading-zero);
+  padding-top: 2px;
+  color: var(--gold);
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+@media (max-width: 700px) {
+  .invite-columns {
+    gap: 28px;
+    padding: 34px 22px;
+  }
+
+  .invite-rule {
+    width: 100%;
+    margin: 4px 0;
+    background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
+  }
 }
 
 /* =========================================================
