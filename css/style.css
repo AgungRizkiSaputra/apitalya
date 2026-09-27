@@ -2318,10 +2318,10 @@ body::after {
 
   .hero-section::after {
     opacity: 0.24;
-    left: 0;
-    width: 100%;
+    left: 50%;
+    width: 100vw;
     background-position: 58% center;
-    transform: none;
+    transform: translateX(-50%);
   }
 
   .hero-section .couple-title {
