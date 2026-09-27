@@ -2322,6 +2322,9 @@ body::after {
     min-height: 680px;
     padding-top: 120px;
     animation-duration: 22s;
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
   }
 
   .hero-section::before {
@@ -2332,7 +2335,10 @@ body::after {
 
   .hero-section::after {
     opacity: 0.24;
+    left: 0;
+    width: 100%;
     background-position: 58% center;
+    transform: none;
   }
 
   .hero-section .couple-title {
