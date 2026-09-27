@@ -2123,74 +2123,122 @@ body::after {
 
 /* Story timeline with calendar-like dates */
 .story-timeline {
-  max-width: 820px;
-  margin-top: 72px;
+  max-width: 900px;
+  margin-top: 78px;
+  padding: 18px 0 12px;
 }
 
 .story-timeline::before {
-  left: 154px;
-  background: linear-gradient(var(--gold-soft), var(--terracotta) 50%, var(--gold-soft));
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background: linear-gradient(transparent, var(--gold-soft) 8%, var(--terracotta) 50%, var(--gold-soft) 92%, transparent);
 }
 
 .story-entry {
-  grid-template-columns: 118px 72px 1fr;
-  gap: 0 22px;
-  min-height: 190px;
+  display: grid;
+  grid-template-columns: 1fr 92px 1fr;
+  gap: 0;
+  min-height: 220px;
+  align-items: start;
 }
 
 .story-date {
+  grid-column: 2;
+  grid-row: 1;
+  z-index: 2;
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  padding-top: 0;
+  width: 64px;
+  height: 64px;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  border: 1px solid var(--gold-soft);
+  border-radius: 50%;
+  background: #f5ecdf;
   color: var(--terracotta);
-  text-align: right;
+  text-align: center;
+  box-shadow: 0 0 0 9px rgba(245, 236, 223, 0.78);
 }
 
 .story-date strong {
   font-family: var(--font-serif);
-  font-size: 2.7rem;
+  font-size: 1.8rem;
   font-weight: 600;
-  line-height: 0.9;
+  line-height: 0.85;
 }
 
 .story-date small {
-  margin-top: 7px;
+  display: block;
+  margin-top: 5px;
   color: var(--gold);
-  font-size: 0.62rem;
+  font-size: 0.48rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.1em;
 }
 
 .story-marker {
-  width: 48px;
-  height: 48px;
-  border: 2px solid var(--gold-soft);
-  background: #f5ecdf;
-  box-shadow: 0 0 0 7px rgba(245, 236, 223, 0.72);
+  grid-column: 2;
+  grid-row: 1;
+  display: grid;
+  width: 30px;
+  height: 30px;
+  align-self: end;
+  justify-self: center;
+  margin-bottom: 24px;
+  place-items: center;
+  border: 1px solid var(--gold-soft);
+  border-radius: 50%;
+  background: var(--terracotta);
+  color: #fffaf3;
+  font-size: 0.65rem;
+  transform: translateY(50%);
 }
 
 .story-copy {
-  margin-bottom: 28px;
-  padding: 20px 28px 22px;
-  border-top: 1px solid rgba(184, 137, 75, 0.28);
-  border-bottom: 1px solid rgba(184, 137, 75, 0.18);
-  background: rgba(255, 253, 249, 0.3);
+  position: relative;
+  grid-row: 1;
+  align-self: start;
+  width: min(100%, 350px);
+  margin-top: 24px;
+  padding: 2px 0 36px;
+  border-bottom: 1px solid rgba(184, 137, 75, 0.28);
+  background: transparent;
+}
+
+.story-entry:nth-child(odd) .story-copy {
+  grid-column: 1;
+  justify-self: end;
+  padding-right: 34px;
+  text-align: right;
+}
+
+.story-entry:nth-child(even) .story-copy {
+  grid-column: 3;
+  justify-self: start;
+  padding-left: 34px;
 }
 
 .story-copy h3 {
   margin-top: 8px;
-  font-size: 2.15rem;
+  font-size: 2.05rem;
 }
 
 .story-step {
-  top: 20px;
-  right: 28px;
+  top: 2px;
+  right: 0;
+}
+
+.story-entry:nth-child(even) .story-step {
+  right: auto;
+  left: 0;
 }
 
 @media (max-width: 700px) {
   .story-timeline {
-    margin-top: 52px;
+    margin-top: 54px;
+    padding-top: 0;
   }
 
   .story-timeline::before {
@@ -2200,23 +2248,15 @@ body::after {
   .story-entry {
     grid-template-columns: 43px 1fr;
     gap: 0 20px;
-    min-height: 210px;
+    min-height: 200px;
   }
 
   .story-date {
     grid-column: 1;
     grid-row: 1;
-    z-index: 2;
-    display: flex;
     width: 43px;
     height: 43px;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    border: 1px solid var(--gold-soft);
-    border-radius: 50%;
-    background: #f5ecdf;
-    text-align: center;
+    box-shadow: 0 0 0 6px rgba(245, 236, 223, 0.78);
   }
 
   .story-date strong {
@@ -2235,10 +2275,21 @@ body::after {
   .story-copy {
     grid-column: 2;
     grid-row: 1;
-    margin-bottom: 24px;
-    padding: 17px 18px 20px;
+    width: 100%;
+    margin-top: 0;
+    padding: 4px 0 28px 18px;
+    text-align: left !important;
+  }
+
+  .story-entry:nth-child(odd) .story-copy,
+  .story-entry:nth-child(even) .story-copy {
+    grid-column: 2;
+    justify-self: start;
+    padding-right: 0;
+    padding-left: 18px;
   }
 
   .story-copy h3 { font-size: 1.7rem; }
-  .story-step { top: 17px; right: 18px; }
+  .story-step,
+  .story-entry:nth-child(even) .story-step { top: 4px; right: 0; left: auto; }
 }
