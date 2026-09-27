@@ -2090,3 +2090,155 @@ body.lightbox-open { overflow: hidden; }
   color: var(--muted);
   margin-bottom: 24px;
 }
+
+/* Warm patterned paper background */
+body {
+  background-color: #efe5d5;
+  background-image:
+    radial-gradient(circle at 50% 18%, rgba(255, 250, 239, 0.7) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 50% 18%, transparent 0 42px, rgba(168, 93, 75, 0.08) 42px 43px, transparent 43px 74px, rgba(184, 137, 75, 0.12) 74px 75px, transparent 75px),
+    radial-gradient(circle at 12% 28%, transparent 0 28px, rgba(184, 137, 75, 0.1) 28px 29px, transparent 29px 55px),
+    radial-gradient(circle at 86% 72%, transparent 0 34px, rgba(168, 93, 75, 0.08) 34px 35px, transparent 35px 68px),
+    repeating-linear-gradient(0deg, rgba(87, 61, 43, 0.025) 0 1px, transparent 1px 5px),
+    linear-gradient(135deg, #f5ecdf 0%, #eee1cf 48%, #f6eee2 100%);
+  background-size: 150px 150px, 150px 150px, 220px 220px, 260px 260px, auto, auto;
+  background-attachment: fixed;
+}
+
+body::before,
+body::after {
+  width: min(38vw, 520px);
+  height: min(38vw, 520px);
+  opacity: 0.2;
+  filter: none;
+}
+
+body::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 320'%3E%3Cg fill='none' stroke='%23a85d4b' stroke-width='1.4' opacity='.55'%3E%3Cpath d='M10 300C30 170 120 60 300 12'/%3E%3Cpath d='M56 215c-22-27-38-57-42-91M105 156c-16-31-20-59-15-84M168 99c-3-26 3-48 17-69M228 60c10-20 25-35 44-45'/%3E%3Cpath d='M57 214c29-5 51 4 66 26M105 156c27 0 46 12 57 34M168 99c25 8 40 24 47 48M228 60c21 11 32 27 35 48'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+body::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 320'%3E%3Cg fill='none' stroke='%23b8894b' stroke-width='1.4' opacity='.55'%3E%3Ccircle cx='160' cy='160' r='84'/%3E%3Ccircle cx='160' cy='160' r='58'/%3E%3Cpath d='M160 76v168M76 160h168M101 101l118 118M219 101L101 219'/%3E%3Ccircle cx='160' cy='160' r='14'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* Story timeline with calendar-like dates */
+.story-timeline {
+  max-width: 820px;
+  margin-top: 72px;
+}
+
+.story-timeline::before {
+  left: 154px;
+  background: linear-gradient(var(--gold-soft), var(--terracotta) 50%, var(--gold-soft));
+}
+
+.story-entry {
+  grid-template-columns: 118px 72px 1fr;
+  gap: 0 22px;
+  min-height: 190px;
+}
+
+.story-date {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-top: 0;
+  color: var(--terracotta);
+  text-align: right;
+}
+
+.story-date strong {
+  font-family: var(--font-serif);
+  font-size: 2.7rem;
+  font-weight: 600;
+  line-height: 0.9;
+}
+
+.story-date small {
+  margin-top: 7px;
+  color: var(--gold);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.story-marker {
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--gold-soft);
+  background: #f5ecdf;
+  box-shadow: 0 0 0 7px rgba(245, 236, 223, 0.72);
+}
+
+.story-copy {
+  margin-bottom: 28px;
+  padding: 20px 28px 22px;
+  border-top: 1px solid rgba(184, 137, 75, 0.28);
+  border-bottom: 1px solid rgba(184, 137, 75, 0.18);
+  background: rgba(255, 253, 249, 0.3);
+}
+
+.story-copy h3 {
+  margin-top: 8px;
+  font-size: 2.15rem;
+}
+
+.story-step {
+  top: 20px;
+  right: 28px;
+}
+
+@media (max-width: 700px) {
+  .story-timeline {
+    margin-top: 52px;
+  }
+
+  .story-timeline::before {
+    left: 43px;
+  }
+
+  .story-entry {
+    grid-template-columns: 43px 1fr;
+    gap: 0 20px;
+    min-height: 210px;
+  }
+
+  .story-date {
+    grid-column: 1;
+    grid-row: 1;
+    z-index: 2;
+    display: flex;
+    width: 43px;
+    height: 43px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 1px solid var(--gold-soft);
+    border-radius: 50%;
+    background: #f5ecdf;
+    text-align: center;
+  }
+
+  .story-date strong {
+    font-size: 1.05rem;
+    line-height: 1;
+  }
+
+  .story-date small {
+    margin-top: 1px;
+    font-size: 0.38rem;
+    letter-spacing: 0.08em;
+  }
+
+  .story-marker { display: none; }
+
+  .story-copy {
+    grid-column: 2;
+    grid-row: 1;
+    margin-bottom: 24px;
+    padding: 17px 18px 20px;
+  }
+
+  .story-copy h3 { font-size: 1.7rem; }
+  .story-step { top: 17px; right: 18px; }
+}
