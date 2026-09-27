@@ -2423,3 +2423,113 @@ body::after {
   .story-step,
   .story-entry:nth-child(even) .story-step { top: 4px; right: 0; left: auto; }
 }
+
+/* Phones and narrow Android browsers can report a viewport wider than 700px. */
+@media (max-width: 900px) and (orientation: portrait) {
+  main {
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  main section { padding: 82px 0; }
+
+  .hero-section {
+    width: 100vw;
+    min-height: 680px;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding: 120px 20px 82px;
+  }
+
+  .hero-section .couple-title {
+    font-size: clamp(4.4rem, 18vw, 6.5rem);
+  }
+
+  .quran-quote {
+    margin-top: 38px;
+    padding: 22px 12px;
+  }
+
+  .quran-quote p { font-size: 1.1rem; }
+
+  .couple-grid,
+  .event-cards,
+  .gift-accounts {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+  }
+
+  .couple-grid { gap: 30px; }
+  .couple-divider { margin: -12px 0; }
+
+  .event-cards {
+    gap: 34px;
+    align-items: stretch;
+  }
+
+  .event-card {
+    padding: 0 0 30px;
+    min-height: 0;
+  }
+
+  .event-card + .event-card {
+    padding-top: 30px;
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .event-cards::before { display: none; }
+
+  .gift-accounts {
+    gap: 36px;
+  }
+
+  .story-timeline {
+    margin-top: 54px;
+    padding-top: 0;
+  }
+
+  .story-timeline::before { left: 43px; }
+
+  .story-entry {
+    grid-template-columns: 43px 1fr;
+    gap: 0 20px;
+    min-height: 200px;
+  }
+
+  .story-date {
+    grid-column: 1;
+    grid-row: 1;
+    width: 43px;
+    height: 43px;
+    box-shadow: 0 0 0 6px rgba(245, 236, 223, 0.78);
+  }
+
+  .story-date strong { font-size: 1.05rem; }
+  .story-date small { margin-top: 1px; font-size: 0.38rem; }
+  .story-marker { display: none; }
+
+  .story-copy,
+  .story-entry:nth-child(odd) .story-copy,
+  .story-entry:nth-child(even) .story-copy {
+    grid-column: 2;
+    grid-row: 1;
+    width: 100%;
+    justify-self: start;
+    margin-top: 0;
+    padding: 4px 0 28px 18px;
+    text-align: left;
+  }
+
+  .story-copy h3 { font-size: 1.7rem; }
+
+  .gallery-more.is-expanded { column-count: 2; }
+  .invite-columns { grid-template-columns: 1fr; gap: 28px; }
+  .invite-rule {
+    width: 100%;
+    height: 1px;
+    min-height: 0;
+    margin: 4px 0;
+    background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
+  }
+}
