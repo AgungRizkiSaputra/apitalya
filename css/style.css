@@ -1941,6 +1941,29 @@ body.lightbox-open { overflow: hidden; }
   margin-top: 0;
 }
 
+.event-address {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.event-address > i {
+  color: var(--terracotta);
+  font-size: 1rem;
+}
+
+.event-address strong {
+  color: var(--terracotta);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .calendar-link {
   color: var(--primary-dark);
   border-bottom-color: var(--primary-dark);
