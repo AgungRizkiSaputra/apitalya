@@ -2412,15 +2412,16 @@ body::after {
 }
 
 .story-photo {
+  position: relative;
   grid-row: 1;
   align-self: center;
   width: min(100%, 270px);
-  height: 235px;
+  height: 270px;
   margin: 0 auto;
   overflow: hidden;
-  border: 5px solid rgba(255, 253, 249, 0.78);
-  outline: 1px solid rgba(184, 137, 75, 0.38);
-  box-shadow: 0 14px 32px rgba(62, 43, 32, 0.14);
+  border: 6px solid rgba(255, 253, 249, 0.88);
+  outline: 1px solid rgba(184, 137, 75, 0.42);
+  box-shadow: 0 16px 34px rgba(62, 43, 32, 0.16);
 }
 
 .story-photo img {
@@ -2428,6 +2429,35 @@ body::after {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.story-entry:nth-child(1) .story-photo {
+  height: 290px;
+  border-radius: 46% 46% 8px 8px;
+}
+
+.story-entry:nth-child(1) .story-photo img {
+  object-position: center 82%;
+}
+
+.story-entry:nth-child(2) .story-photo {
+  height: 300px;
+  border-radius: 48% 48% 10px 10px;
+  transform: rotate(-1.5deg);
+}
+
+.story-entry:nth-child(2) .story-photo img {
+  object-position: center 22%;
+}
+
+.story-entry:nth-child(3) .story-photo {
+  height: 225px;
+  border-radius: 8px 42% 8px 42%;
+  transform: rotate(1.5deg);
+}
+
+.story-entry:nth-child(3) .story-photo img {
+  object-position: center 55%;
 }
 
 .story-entry:nth-child(odd) .story-photo {
@@ -2452,9 +2482,12 @@ body::after {
     grid-column: 2;
     grid-row: 2;
     justify-self: start;
-    width: min(100%, 300px);
-    height: 220px;
+    width: min(calc(100% - 18px), 300px);
     margin-left: 18px;
   }
+
+  .story-entry:nth-child(1) .story-photo { height: 270px; }
+  .story-entry:nth-child(2) .story-photo { height: 290px; }
+  .story-entry:nth-child(3) .story-photo { height: 210px; }
 }
 
