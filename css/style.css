@@ -332,6 +332,10 @@ main section:last-child::after {
   gap: 45px;
 }
 
+.mobile-couple-photo {
+  display: none;
+}
+
 .couple-card {
   width: 100%;
 }
@@ -632,12 +636,12 @@ main section { padding: 112px 0; }
 @media (max-width: 700px) {
   body::before, body::after { width: 180px; height: 180px; opacity: 0.3; }
   .cover-section {
-    background-image: url('../assets/images/gallery/50.jpeg');
+    background-image: url('../assets/images/gallery/mb.jpeg');
     background-position: center center;
     background-size: cover;
   }
   .hero-section::after {
-    background-image: url('../assets/images/gallery/50.jpeg');
+    background-image: url('../assets/images/gallery/mb.jpeg');
     background-position: center center;
     background-size: cover;
   }
@@ -648,7 +652,9 @@ main section { padding: 112px 0; }
   .hero-section { min-height: 590px; padding-top: 105px; }
   .quran-quote { margin-top: 38px; padding: 22px 12px; }
   .quran-quote p { font-size: 1.1rem; }
-  .couple-grid { flex-direction: column; gap: 30px; }
+  .couple-grid {
+    display: none;
+  }
   .couple-divider { font-size: 4rem; margin: -12px 0; }
   .event-cards { grid-template-columns: 1fr; gap: 16px; }
   .event-card { padding: 30px 20px; }
