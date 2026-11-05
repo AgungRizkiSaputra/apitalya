@@ -332,10 +332,6 @@ main section:last-child::after {
   gap: 45px;
 }
 
-.mobile-couple-photo {
-  display: none;
-}
-
 .couple-card {
   width: 100%;
 }
@@ -654,21 +650,6 @@ main section { padding: 112px 0; }
   .quran-quote p { font-size: 1.1rem; }
   .couple-grid {
     display: none;
-  }
-  .mobile-couple-photo {
-    display: block;
-    width: 100%;
-    margin: 0 auto 8px;
-  }
-  .mobile-couple-photo img {
-    display: block;
-    width: min(100%, 420px);
-    height: clamp(300px, 70vw, 520px);
-    margin: 0 auto;
-    border-radius: 14px;
-    object-fit: cover;
-    object-position: center center;
-    box-shadow: 0 16px 30px rgba(62, 43, 32, 0.16);
   }
   .couple-divider { font-size: 4rem; margin: -12px 0; }
   .event-cards { grid-template-columns: 1fr; gap: 16px; }
