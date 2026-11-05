@@ -631,6 +631,16 @@ main section { padding: 112px 0; }
 
 @media (max-width: 700px) {
   body::before, body::after { width: 180px; height: 180px; opacity: 0.3; }
+  .cover-section {
+    background-image: url('../assets/images/gallery/mb.jpeg');
+    background-position: center center;
+    background-size: cover;
+  }
+  .hero-section::after {
+    background-image: url('../assets/images/gallery/mb.jpeg');
+    background-position: center center;
+    background-size: cover;
+  }
   main { padding: 0 20px; }
   main section { padding: 82px 0; }
   .cover-section::before { inset: 10px; }
