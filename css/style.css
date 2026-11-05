@@ -332,10 +332,6 @@ main section:last-child::after {
   gap: 45px;
 }
 
-.mobile-couple-photo {
-  display: none;
-}
-
 .couple-card {
   width: 100%;
 }
@@ -652,24 +648,7 @@ main section { padding: 112px 0; }
   .hero-section { min-height: 590px; padding-top: 105px; }
   .quran-quote { margin-top: 38px; padding: 22px 12px; }
   .quran-quote p { font-size: 1.1rem; }
-  .couple-grid {
-    display: none;
-  }
-  .mobile-couple-photo {
-    display: block;
-    width: 100%;
-    margin: 0 auto 8px;
-  }
-  .mobile-couple-photo img {
-    display: block;
-    width: min(100%, 420px);
-    height: clamp(300px, 70vw, 520px);
-    margin: 0 auto;
-    border-radius: 14px;
-    object-fit: cover;
-    object-position: center center;
-    box-shadow: 0 16px 30px rgba(62, 43, 32, 0.16);
-  }
+  .couple-grid { flex-direction: column; gap: 30px; }
   .couple-divider { font-size: 4rem; margin: -12px 0; }
   .event-cards { grid-template-columns: 1fr; gap: 16px; }
   .event-card { padding: 30px 20px; }
