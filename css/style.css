@@ -653,26 +653,21 @@ main section { padding: 112px 0; }
   .quran-quote { margin-top: 38px; padding: 22px 12px; }
   .quran-quote p { font-size: 1.1rem; }
   .couple-grid {
-    display: none;
-  }
-  .mobile-couple-photo {
-    display: block;
-    width: 100%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    margin: 0 auto 8px;
+    gap: 18px;
   }
-  .mobile-couple-photo img {
-    width: min(100%, 420px);
-    height: auto;
-    display: block;
-    margin: 0 auto;
-    border-radius: 12px;
-    box-shadow: 0 16px 30px rgba(62, 43, 32, 0.16);
-    object-fit: cover;
+  .couple-card {
+    width: 100%;
+    max-width: 260px;
   }
-  .couple-divider { font-size: 4rem; margin: -12px 0; }
+  .avatar-holder {
+    width: 190px;
+    height: 250px;
+    margin: 0 auto 16px;
+  }
+  .couple-divider { font-size: 3.5rem; margin: -10px 0 0; }
   .event-cards { grid-template-columns: 1fr; gap: 16px; }
   .event-card { padding: 30px 20px; }
   .countdown-grid { gap: 10px; justify-content: space-between; }
