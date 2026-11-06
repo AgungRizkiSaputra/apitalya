@@ -734,7 +734,23 @@ main section { padding: 112px 0; }
 .gift-accounts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 70px; max-width: 760px; margin: 45px auto 0; }
 .gift-account { width: 100%; max-width: none; margin: 0; padding: 20px 0 30px; }
 .account-label { margin-bottom: 18px; color: var(--gold); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; }
-.gift-bank-mark { margin-top: 0; }
+.gift-bank-mark {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 18px;
+  border: 1px solid rgba(184, 137, 75, 0.45);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+}
+.gift-bank-mark svg {
+  display: block;
+  width: 36px;
+  height: 36px;
+}
+.gift-bank-mark.seabank svg { fill: #1a77b9; }
+.gift-bank-mark.bca svg { fill: #005ba2; }
 .account-number { font-size: clamp(1.9rem, 3vw, 2.55rem); }
 .rsvp-section { padding-top: 110px; }
 .rsvp-form { max-width: 570px; }
@@ -815,9 +831,30 @@ main section { padding: 112px 0; }
 }
 
 .gift-bank-mark {
-  margin: 20px 0 8px;
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  margin: 20px auto 8px;
+  border: 1px solid rgba(184, 137, 75, 0.45);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
   color: var(--gold);
   font-size: 1.35rem;
+}
+.gift-bank-mark img {
+  display: block;
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+.gift-bank-mark.seabank img {
+  width: 46px;
+  height: 46px;
+}
+.gift-bank-mark.bca img {
+  width: 52px;
+  height: 52px;
 }
 
 .account-bank {
