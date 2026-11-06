@@ -2604,7 +2604,7 @@ body::after {
 .story-entry:nth-child(2) .story-photo {
   height: 300px;
   border-radius: 48% 48% 10px 10px;
-  transform: rotate(-1.5deg);
+  transform: none;
 }
 
 .story-entry:nth-child(2) .story-photo img {
@@ -2614,7 +2614,7 @@ body::after {
 .story-entry:nth-child(3) .story-photo {
   height: 225px;
   border-radius: 8px 42% 8px 42%;
-  transform: rotate(1.5deg);
+  transform: none;
 }
 
 .story-entry:nth-child(3) .story-photo img {
