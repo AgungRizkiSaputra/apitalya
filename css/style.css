@@ -1729,7 +1729,7 @@ body.lightbox-open { overflow: hidden; }
 
 .family-list {
   display: grid;
-  gap: 7px;
+  gap: 8px;
   margin: 15px 0 0;
   padding: 0;
   list-style: none;
@@ -1740,9 +1740,12 @@ body.lightbox-open { overflow: hidden; }
 
 .family-list li {
   display: grid;
-  grid-template-columns: 14px minmax(0, 1fr);
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 8px;
   align-items: start;
   text-align: left;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .family-list li::before {
@@ -1832,29 +1835,43 @@ body.lightbox-open { overflow: hidden; }
   .gallery-more.is-expanded { column-count: 2; column-gap: 10px; }
   .wish-item { padding: 18px 20px 18px 28px; }
   .invite-columns { padding: 28px 16px; }
+  .family-list { gap: 6px; }
+  .family-list li {
+    grid-template-columns: 26px minmax(0, 1fr);
+    gap: 8px;
+    padding: 9px 0;
+    font-size: 0.76rem;
+    line-height: 1.6;
+  }
+  .invite-group { padding-top: 0; }
+  .invite-label {
+    justify-content: center;
+    margin-bottom: 14px;
+    text-align: center;
+  }
 }
 
-/* Refined family invitation layout */
+/* Recommended final family invitation layout */
 .invite-columns {
   grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
-  gap: clamp(28px, 5vw, 58px);
-  padding: 42px clamp(22px, 5vw, 54px);
-  border: 1px solid rgba(184, 137, 75, 0.28);
-  background: rgba(255, 253, 249, 0.34);
-  box-shadow: 0 18px 38px rgba(62, 43, 32, 0.06);
+  gap: clamp(24px, 4vw, 52px);
+  padding: 30px clamp(18px, 3vw, 32px);
+  border: 1px solid rgba(184, 137, 75, 0.2);
+  background: rgba(255, 252, 248, 0.18);
+  box-shadow: 0 12px 26px rgba(62, 43, 32, 0.04);
 }
 
 .invite-group {
   position: relative;
-  padding-top: 16px;
+  padding: 10px 8px 0;
 }
 
 .invite-group::before {
   position: absolute;
   top: 0;
-  left: 0;
+  left: 8px;
   width: 44px;
-  height: 2px;
+  height: 1px;
   content: '';
   background: var(--terracotta);
 }
@@ -1862,10 +1879,10 @@ body.lightbox-open { overflow: hidden; }
 .invite-label {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 22px;
+  gap: 10px;
+  margin-bottom: 14px;
   color: var(--terracotta);
-  font-size: 0.68rem;
+  font-size: 0.6rem;
   letter-spacing: 0.16em;
 }
 
@@ -1873,8 +1890,7 @@ body.lightbox-open { overflow: hidden; }
   flex: 1;
   height: 1px;
   content: '';
-  background: var(--gold-soft);
-  opacity: 0.7;
+  background: rgba(184, 137, 75, 0.22);
 }
 
 .family-list {
@@ -1885,9 +1901,10 @@ body.lightbox-open { overflow: hidden; }
 
 .family-list li {
   counter-increment: family-item;
-  grid-template-columns: 28px minmax(0, 1fr);
-  padding: 11px 0;
-  border-bottom: 1px solid rgba(184, 137, 75, 0.16);
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 8px;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(184, 137, 75, 0.13);
   line-height: 1.55;
 }
 
@@ -1897,24 +1914,61 @@ body.lightbox-open { overflow: hidden; }
 
 .family-list li::before {
   content: counter(family-item, decimal-leading-zero);
-  padding-top: 2px;
   color: var(--gold);
   font-family: var(--font-serif);
-  font-size: 0.9rem;
+  font-size: 0.76rem;
   font-weight: 600;
 }
 
 @media (max-width: 700px) {
   .invite-columns {
-    gap: 28px;
-    padding: 34px 22px;
+    display: block;
+    gap: 0;
+    padding: 20px 14px;
   }
 
   .invite-rule {
-    width: 100%;
-    margin: 4px 0;
-    background: linear-gradient(90deg, transparent, var(--gold-soft), transparent);
+    display: none;
   }
+
+  .invite-group {
+    padding: 0;
+  }
+
+  .invite-group + .invite-group {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(184, 137, 75, 0.18);
+  }
+
+  .invite-label {
+    justify-content: flex-start;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-size: 0.54rem;
+    letter-spacing: 0.11em;
+  }
+
+  .invite-label::after {
+    flex: 1 1 auto;
+    min-width: 12px;
+  }
+
+  .family-list li {
+      grid-template-columns: 24px minmax(0, 1fr);
+      gap: 10px;
+    padding: 7px 0;
+    font-size: 0.68rem;
+    line-height: 1.5;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .family-list li::before {
+      font-size: 0.68rem;
+      min-width: 18px;
+      text-align: center;
+    }
 }
 
 /* =========================================================
