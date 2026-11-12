@@ -2016,7 +2016,7 @@ body.lightbox-open { overflow: hidden; }
   justify-content: flex-end;
   align-items: center;
   max-width: 520px;
-  margin: 0 auto 12px;
+  margin: 20px auto 12px;
 }
 
 .wish-sort-wrapper {

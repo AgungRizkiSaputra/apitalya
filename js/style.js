@@ -271,32 +271,32 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // // Hapus single ucapan dari Supabase
-  // wishesList?.addEventListener("click", async (event) => {
-  //   const deleteButton = event.target.closest(".delete-wish");
-  //   if (deleteButton) {
-  //     const wishItem = deleteButton.closest(".wish-item");
-  //     const wishId = wishItem.dataset.id;
+  // Hapus single ucapan dari Supabase
+  wishesList?.addEventListener("click", async (event) => {
+    const deleteButton = event.target.closest(".delete-wish");
+    if (deleteButton) {
+      const wishItem = deleteButton.closest(".wish-item");
+      const wishId = wishItem.dataset.id;
 
-  //     if (wishId) {
-  //       const { error } = await supabase.from("wishes").delete().eq("id", wishId);
-  //       if (error) console.error("Gagal menghapus ucapan:", error);
-  //     }
-  //     wishItem.remove();
-  //   }
-  // });
+      if (wishId) {
+        const { error } = await supabase.from("wishes").delete().eq("id", wishId);
+        if (error) console.error("Gagal menghapus ucapan:", error);
+      }
+      wishItem.remove();
+    }
+  });
 
-  // // Hapus semua ucapan dari Supabase
-  // document.getElementById("clear-wishes")?.addEventListener("click", async () => {
-  //   if (confirm("Apakah Anda yakin ingin menghapus semua ucapan dari database?")) {
-  //     const { error } = await supabase.from("wishes").delete().neq("id", 0);
-  //     if (!error) {
-  //       wishesList.replaceChildren();
-  //     } else {
-  //       console.error("Gagal menghapus semua ucapan:", error);
-  //     }
-  //   }
-  // });
+  // Hapus semua ucapan dari Supabase
+  document.getElementById("clear-wishes")?.addEventListener("click", async () => {
+    if (confirm("Apakah Anda yakin ingin menghapus semua ucapan dari database?")) {
+      const { error } = await supabase.from("wishes").delete().neq("id", 0);
+      if (!error) {
+        wishesList.replaceChildren();
+      } else {
+        console.error("Gagal menghapus semua ucapan:", error);
+      }
+    }
+  });
 
   fetchWishes();
 
