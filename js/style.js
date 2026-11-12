@@ -286,17 +286,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Hapus semua ucapan dari Supabase
-  document.getElementById("clear-wishes")?.addEventListener("click", async () => {
-    if (confirm("Apakah Anda yakin ingin menghapus semua ucapan dari database?")) {
-      const { error } = await supabase.from("wishes").delete().neq("id", 0);
-      if (!error) {
-        wishesList.replaceChildren();
-      } else {
-        console.error("Gagal menghapus semua ucapan:", error);
-      }
-    }
-  });
+  // // Hapus semua ucapan dari Supabase
+  // document.getElementById("clear-wishes")?.addEventListener("click", async () => {
+  //   if (confirm("Apakah Anda yakin ingin menghapus semua ucapan dari database?")) {
+  //     const { error } = await supabase.from("wishes").delete().neq("id", 0);
+  //     if (!error) {
+  //       wishesList.replaceChildren();
+  //     } else {
+  //       console.error("Gagal menghapus semua ucapan:", error);
+  //     }
+  //   }
+  // });
 
   fetchWishes();
 
